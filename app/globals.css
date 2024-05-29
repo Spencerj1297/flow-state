@@ -2,14 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 
+WEBSITE COLOR SCHEME
+--------------------
+lightBlue - #f3faf9
+aqua - #c5d7d6
+grey - #d8d9d5
+seafoam - #e3e6d8
+blue - #519ece
+*/
 
 body {
-  background: linear-gradient(to top, #CFFDBC, #eafce3);
-  background-repeat: no-repeat
+  background: linear-gradient(to top, #c5d7d6, #F3FaF9);
+  background-repeat: no-repeat;
+  padding-left: 10px;
+  padding-right: 10px;
 }
+
+@media screen and (min-width: 1024px){
+  body {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+.text-shadow {
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, .50);
+}
+
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+

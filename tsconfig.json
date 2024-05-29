@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/util/mongodb/index.js", "app/api/create-new-user/route.js", "app/lib/mongodb.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/util/mongodb/index.js", "app/api/create-new-user/route.js", "app/lib/dbConnect.js", "app/api/get-user/route.js"],
   "exclude": ["node_modules"]
 }

@@ -1,29 +1,45 @@
-import { dbConnect } from "@/app/lib/mongodb";
-import { NextResponse } from "next/server";
+import { MongoClient } from "mongodb";
 
-export async function GET(){
-    const con = await dbConnect()
+export async function POST(req) {
+  const client = new MongoClient(process.env.MONGODB_URI);
 
-    if (con) {
-        res.setHeader('Allow', ['POST']);
-        return res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
-    try {
-        const client = await clientPromise;
-        
-        const db = client.db('flow_state'); // Use your database name
-        const usersCollection = db.collection('users'); // Use your collection name
+  try {
+    const body = await req.json()
+    console.log("_______________________________________________")
+    console.log("The body", body)
+    console.log("_______________________________________________")
+    await client.connect();
+    const database = client.db("flow_state");
+    const collection = database.collection("users");
 
-        const userData = req.body;
-        console.log("body",req.body)
-        
-        await usersCollection.insertOne(userData);
-        
-        res.status(200).json({ message: 'User signed up successfully', userData });
-    } catch (error) {
-        console.error('Error signing up user:', error);
-        res.status(500).json({ error: 'Failed to sign up user' });
-    }
-};
+    const doc = {
+      email: body.email,
+      password: body.password,
+      first_name: "",
+      last_name: "",
+      phone: "",
+      username: body.username,
+    };
 
+    const result = await collection.insertOne(doc);
+    console.log("A document was inserted into the users collection", result);
 
+    return new Response(JSON.stringify({ message: "Document inserted", result }), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+  } catch (error) {
+    console.error("Error inserting document:", error);
+    return new Response(JSON.stringify({ message: "Something went wrong!" }), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } finally {
+    await client.close();
+  }
+}
