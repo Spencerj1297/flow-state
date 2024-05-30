@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Nav } from "./components/nav";
+import { UserProvider } from "../context/user";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  weight: "900",
+});
 
 export const metadata: Metadata = {
   title: "Flow State",
@@ -17,10 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Nav />
-        {children}
+      <UserProvider>
+        <body className={inter.className}>
+          <Nav />
+          {children}
         </body>
+      </UserProvider>
     </html>
   );
 }
