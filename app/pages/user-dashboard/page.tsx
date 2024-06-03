@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 
 const UserDashboard = () => {
   return (
@@ -11,9 +13,11 @@ const UserDashboard = () => {
         <div className="bg-white w-1/2 h-96 text-center p-8 rounded-xl shadow-custom">
           <h2 className="w-full flex justify-between">
             Task List for: Future Today Date{" "}
+            <Link href='/pages/tasks'>
             <button className="bg-blue text-white p-2 rounded-xl text-xs">
               Go to Tasks
             </button>
+            </Link>
           </h2>
         </div>
         <div className="bg-white w-1/2 h-96 text-center p-8 rounded-xl shadow-custom">

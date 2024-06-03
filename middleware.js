@@ -15,5 +15,5 @@ export function middleware(req){
 
 export const config = {
     //matcher can be an array of all routes requiring a user
-    matcher: '/pages/user-dashboard'
-}
+    matcher: ['/pages/user-dashboard', '/pages/tasks']
+}       
