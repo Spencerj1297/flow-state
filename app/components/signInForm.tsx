@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import axios from "axios";
-import { useUser } from "../../context/user"
+import { useUser } from "../../context/user";
 import Cookies from "js-cookie";
 
 export const SignInForm = () => {
@@ -23,11 +23,11 @@ export const SignInForm = () => {
       const response = await axios.post("/api/sign-in", formData);
       console.log("----- Sign in successful -----:", response.data);
       if (response.status === 200) {
-        Cookies.set('user', response.data.user._id, { expires: 1 });
-        Cookies.set('email', response.data.user.email, { expires: 1 });
-        Cookies.set('first_name', response.data.user.first_name, { expires: 1 });
-        Cookies.set('last_name', response.data.user.last_name, { expires: 1 });
-        Cookies.set('phone', response.data.user.phone, { expires: 1 });
+        Cookies.set("user", response.data.user._id);
+        Cookies.set("email", response.data.user.email);
+        Cookies.set("first_name", response.data.user.first_name);
+        Cookies.set("last_name", response.data.user.last_name);
+        Cookies.set("phone", response.data.user.phone);
 
         window.location.href = response.data.redirectUrl;
       }
@@ -39,7 +39,6 @@ export const SignInForm = () => {
       }
     }
   };
-
 
   return (
     <div className="flex flex-col gap-4 h-96 w-[400px] bg-lightBlue rounded-xl p-16">

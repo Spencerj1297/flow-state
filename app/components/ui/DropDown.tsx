@@ -6,7 +6,7 @@ interface Props {
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption }) => {
+export const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption}) => {
   const [isOpen, setIsOpen] = useState(false);
   
   const toggleDropdown = () => setIsOpen(!isOpen);

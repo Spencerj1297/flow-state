@@ -1,27 +1,33 @@
 import { MongoClient, ObjectId } from "mongodb";
 
-export async function POST(req) {
+export async function PATCH(req) {
   const client = new MongoClient(process.env.MONGODB_URI);
 
   try {
     const body = await req.json();
 
-    console.log("body", body);
+    console.log("bodyyyy", body);
 
     await client.connect();
 
     const database = client.db("flow_state");
     const collection = database.collection("tasks");
+    
+    const filter = { _id: new ObjectId(body._id) };
+    
+    const updateDoc = {
+      $set: {
+        user_id: body.user_id,
+        title: body.title,
+        description: body.description,
+        status: body.status
+      }
+    };
 
-    const query = { user_id: body.user_id, title: body.title, description: body.description, status: body.status };
-    const tasksCursor = await collection.insertOne(query);
+    const updateTask = await collection.updateOne(filter, updateDoc);
 
-    const tasks = await tasksCursor.toArray();
-
-    console.log("USERS TASKS", tasks);
-
-    if (tasks.length > 0) {
-      return new Response(JSON.stringify(tasks), {
+    if (updateTask.modifiedCount === 1) {
+      return new Response(JSON.stringify(updateTask), {
         status: 200,
         headers: {
           "Content-Type": "application/json",
@@ -36,6 +42,7 @@ export async function POST(req) {
       });
     }
   } catch (error) {
+    console.error("Error:", error);
     return new Response(JSON.stringify({ message: "Something went wrong!" }), {
       status: 500,
       headers: {
