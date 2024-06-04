@@ -90,7 +90,7 @@ export const CompleteTask: FC<Props> = ({ userTasks, getTask }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-4 bg-seafoam rounded-xl h-[600px] w-full xl:w-1/3 shadow-custom p-4">
+      <div className="flex flex-col gap-4 bg-seafoam rounded-lg h-[600px] w-full xl:w-1/3 shadow-custom p-4">
         <h2 className="flex justify-between">Complete</h2>
         {userTasks
           .filter((tasks) => tasks.status === "complete")
@@ -102,7 +102,7 @@ export const CompleteTask: FC<Props> = ({ userTasks, getTask }) => {
                   setTaskModalOpen(!taskModalOpen);
                   setFormData(task);
                 }}
-                className="w-full flex flex-col text-left gap-4 rounded-xl shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 bg-white"
+                className="w-full flex flex-col text-left gap-4 rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 bg-white"
               >
                 <p className="text-sm">{task?.title}</p>
                 <p className="text-xs">{task?.description}</p>

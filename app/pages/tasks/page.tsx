@@ -42,7 +42,6 @@ const Tasks = () => {
 
   return (
     <section className="min-h-screen flex flex-col xl:flex-row justify-center items-center gap-4 p-24">
-      
       <NewTask userTasks={userTasks} getTask={getUserTasks} />
       <CurrentTask userTasks={userTasks} getTask={getUserTasks}/>
       <CompleteTask userTasks={userTasks} getTask={getUserTasks}/>
