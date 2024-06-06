@@ -22,7 +22,7 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
     title: "",
     description: "",
     status: "new",
-  }
+  };
   const [formData, setFormData] = useState<Task>(initialFormData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +96,7 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
       if (response.status === 200) {
         getTask();
         setTaskModalOpen(false);
-        setFormData(initialFormData)
+        setFormData(initialFormData);
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -108,17 +108,17 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
   };
 
   const closeAndResetForm = () => {
-    setTaskModalOpen(false)
-    setAddTaskModal(false)
-    setFormData(initialFormData)
-  }
+    setTaskModalOpen(false);
+    setAddTaskModal(false);
+    setFormData(initialFormData);
+  };
 
   const createTask = async () => {
     try {
       const response = await axios.post("/api/create-task", formData);
       if (response.status === 200) {
         getTask();
-        closeAndResetForm()
+        closeAndResetForm();
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -128,20 +128,20 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
       }
     }
   };
-console.log("f", formData)
+  console.log("f", formData);
 
-useEffect(() => {
+  useEffect(() => {
     setFormData({ ...formData, status: selectedOption });
   }, [selectedOption]);
 
   return (
     <>
-      <div className="flex flex-col gap-4 bg-grey rounded-lg h-[600px] w-full xl:w-1/3 shadow-custom p-4">
-        <h2 className="flex justify-between">
+      <div className="flex flex-col gap-4 bg-grey rounded-lg h-[600px] w-full xl:w-1/3 shadow-custom p-4 overflow-hidden overflow-y-scroll hide-scrollbar border border-white">
+        <h2 className="flex justify-between border-b-2 py-2">
           Tasks
           <button
             onClick={() => setAddTaskModal(!addTaskModal)}
-            className="transition-transform transform hover:text-blue hover:scale-105 duration-300 ease-in-out"
+            className="transition-transform transform hover:text-seafoam hover:scale-105 duration-300 ease-in-out"
           >
             <IconSquareRoundedPlus />
           </button>
@@ -161,21 +161,18 @@ useEffect(() => {
                 <p className="text-sm">{task?.title}</p>
                 <p className="text-xs">{task?.description}</p>
               </button>
-
-              {taskModalOpen && (
-                <Modal
-                  modalTitle="Edit Task"
-                  modalText={task?.description}
-                  closeModal={closeAndResetForm}
-                //   setOpen={setTaskModalOpen}
-                  customSection={editTaskSection(formData)}
-                  callBack={editTask}
-                  isEdit
-                />
-              )}
             </>
           ))}
       </div>
+      {taskModalOpen && (
+        <Modal
+          modalTitle="Edit Task"
+          closeModal={closeAndResetForm}
+          customSection={editTaskSection(formData)}
+          callBack={editTask}
+          isEdit
+        />
+      )}
       {addTaskModal && (
         <Modal
           modalTitle="Create new Task"

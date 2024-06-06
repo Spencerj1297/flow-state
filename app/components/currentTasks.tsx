@@ -5,6 +5,7 @@ import { Task } from "../types";
 import { Input } from "./ui/input";
 import { DropDown } from "./ui/DropDown";
 import axios from "axios";
+import { IconSquare, IconSquareCheck } from "@tabler/icons-react";
 
 interface Props {
   userTasks: Task[];
@@ -58,6 +59,8 @@ export const CurrentTask: FC<Props> = ({ userTasks, getTask }) => {
     );
   };
 
+  console.log(formData);
+
   const editTask = async () => {
     try {
       const response = await axios.patch("/api/edit-task", formData);
@@ -86,8 +89,8 @@ export const CurrentTask: FC<Props> = ({ userTasks, getTask }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-4 bg-aqua rounded-lg h-[600px] w-full xl:w-1/3 shadow-custom p-4">
-        <h2 className="flex justify-between">In Progress</h2>
+      <div className="flex flex-col gap-4 bg-aqua rounded-lg h-[600px] w-full xl:w-1/3 shadow-custom p-4 overflow-hidden overflow-y-scroll hide-scrollbar border border-white">
+        <h2 className="flex justify-between border-b-2 py-2">In Progress</h2>
         {userTasks
           .filter((tasks) => tasks.status === "in progress")
           .map((task, ind) => (
@@ -102,22 +105,22 @@ export const CurrentTask: FC<Props> = ({ userTasks, getTask }) => {
               >
                 <p className="text-sm">{task?.title}</p>
                 <p className="text-xs">{task?.description}</p>
+                <span className="absolute top-4 right-4 text-grey hover:text-seafoam">
+                  <IconSquareCheck />
+                </span>
               </button>
-
-              {taskModalOpen && (
-                <Modal
-                  modalTitle="Edit Task"
-                  modalText={task?.description}
-                  closeModal={closeAndResetForm}
-                  setOpen={setTaskModalOpen}
-                  customSection={editTaskSection(formData)}
-                  callBack={editTask}
-                  isEdit
-                />
-              )}
             </>
           ))}
       </div>
+      {taskModalOpen && (
+        <Modal
+          modalTitle="Edit Task"
+          closeModal={closeAndResetForm}
+          customSection={editTaskSection(formData)}
+          callBack={editTask}
+          isEdit
+        />
+      )}
     </>
   );
 };

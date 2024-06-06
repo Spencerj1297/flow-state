@@ -24,8 +24,9 @@ const config: Config = {
         lightBlue: "#f3faf9",
         aqua: "#c5d7d6",
         grey: "#d8d9d5",
-        seafoam: "#e3e6d8",
+        seafoam: "#9fe2bf",
         blue: "#519ece",
+        red: "#FF4433"
       },
     },
   },

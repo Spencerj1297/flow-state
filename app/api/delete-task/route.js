@@ -6,30 +6,34 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    console.log("body", body);
+    console.log("bodyyyy", body);
 
     await client.connect();
 
     const database = client.db("flow_state");
     const collection = database.collection("tasks");
 
-    const query = { user_id: body.user_id };
-    console.log("queryy", query);
-    const tasksCursor = await collection.find(query);
+    let allDeleted = true
 
-    const tasks = await tasksCursor.toArray();
+    for (let i = 0; i < body.length; i++) {
+      const taskId = body[i]._id;
+      const query = { _id: new ObjectId(taskId) };
+      
+      const result = await collection.deleteOne(query);
+      if (result.deletedCount === 0) {
+        allDeleted = false;
+      }
+    }
 
-    console.log("USERS TASKS", tasks);
-
-    if (tasks.length > 0) {
-      return new Response(JSON.stringify(tasks), {
+    if (allDeleted) {
+      return new Response(JSON.stringify({message: "Task(s) Deleted"}), {
         status: 200,
         headers: {
           "Content-Type": "application/json",
         },
       });
     } else {
-      return new Response(JSON.stringify({ message: "No tasks found" }), {
+      return new Response(JSON.stringify({ message: "Task not deleted" }), {
         status: 404,
         headers: {
           "Content-Type": "application/json",
@@ -37,6 +41,7 @@ export async function POST(req) {
       });
     }
   } catch (error) {
+    console.error("Error:", error);
     return new Response(JSON.stringify({ message: "Something went wrong!" }), {
       status: 500,
       headers: {

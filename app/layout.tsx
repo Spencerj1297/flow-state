@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Flow State",
+  title: "... Flow State",
   description: "Welcome to flow",
 };
 
