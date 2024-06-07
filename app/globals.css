@@ -15,16 +15,14 @@ blue - #519ece
 body {
   background: linear-gradient(to top, #c5d7d6, #F3FaF9);
   background-repeat: no-repeat;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
-@media screen and (min-width: 1024px){
+/* @media screen and (min-width: 1024px){
   body {
     padding-left: 50px;
     padding-right: 50px;
   }
-}
+} */
 
 .text-shadow {
   text-shadow: 4px 4px 4px rgba(0, 0, 0, .50);

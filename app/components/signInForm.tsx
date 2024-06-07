@@ -41,9 +41,11 @@ export const SignInForm = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4 h-96 w-[400px] bg-lightBlue rounded-xl p-16">
-      <h2>Sign in to Flow State</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="flex flex-col gap-4 lg:h-96 w-[400px] bg-lightBlue rounded-xl p-8 lg:p-16">
+      <h2 className="text-xl">Sign in to Flow State</h2>
+      <form 
+      className="flex flex-col gap-4"
+      onSubmit={handleSubmit}>
         <Input
           name="email"
           placeHolder="email"
@@ -59,7 +61,7 @@ export const SignInForm = () => {
           type="password"
         />
         <button
-          className="bg-blue p-4 text-md text-white rounded-xl hover:bg-opacity-80 shadow-custom"
+          className="bg-blue py-2 px-4 text-md text-white rounded-xl hover:bg-opacity-80 shadow-custom"
           type="submit"
         >
           Sign In

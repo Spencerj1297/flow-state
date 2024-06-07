@@ -2,11 +2,21 @@
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { FC, useEffect, useState, useRef, useCallback } from "react";
-import { IconHome, IconLayoutDashboard, IconListCheck, IconMenuDeep, IconSettings } from "@tabler/icons-react";
+import {
+  IconHome,
+  IconLayoutDashboard,
+  IconListCheck,
+  IconMenuDeep,
+  IconSettings,
+} from "@tabler/icons-react";
+import axios from "axios";
+import { signOut } from "../lib/utils";
+
 
 export const Nav: FC = ({}) => {
   const [user, setUser] = useState<string | undefined>(undefined);
   const [userName, setUserName] = useState<string | undefined>(undefined);
+  const [randomQuote, setRandomQuote] = useState<string>("");
   const [dropDown, setDropDown] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const homePage = "/";
@@ -18,14 +28,32 @@ export const Nav: FC = ({}) => {
     setUserName(nameCookie);
   }, []);
 
-  const signOut = () => {
-    Cookies.remove("user");
-    Cookies.remove("email");
-    Cookies.remove("first_name");
-    Cookies.remove("last_name");
-    Cookies.remove("phone");
-    window.location.href = "/ ";
+  const dropDownButtons = () => {
+    const buttons = [
+      {
+        title: "Sign out",
+        callback: signOut,
+      },
+      {
+        title: "Settings",
+        callback: signOut,
+      },
+      {
+        title: "Quotes",
+        callback: signOut,
+      },
+    ];
+  
+    return buttons.map((button, ind) => (
+      <div key={ind}>
+        <button onClick={button.callback} className="text-sm text-blue">
+          {button.title}
+        </button>
+        <div className="w-full border"></div>
+      </div>
+    ));
   };
+  
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
@@ -36,6 +64,28 @@ export const Nav: FC = ({}) => {
     }
   }, []);
 
+  const getQuotes = async () => {
+    try {
+      const response = await axios.get("/api/get-quotes");
+      if (response.status === 200) {
+        const randomNumber = Math.floor(
+          Math.random() * response.data.quotes.length
+        );
+        setRandomQuote(response.data.quotes[randomNumber]?.quote || "");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+      } else {
+        console.error("Unknown error has occurred:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getQuotes();
+  }, []);
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -43,8 +93,6 @@ export const Nav: FC = ({}) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
-
-  console.log(dropDown);
 
   return (
     <>
@@ -92,18 +140,19 @@ export const Nav: FC = ({}) => {
               </div>
             </div>
           </nav>
+
           <nav className="fixed top-0 left-0 w-full p-8 font-black bg-white shadow-outline z-10">
             <div className="w-full flex">
-              <div className="flex w-1/2 justify-start items-center text-blue text-2xl">
+              <div className="flex w-1/2 lg:w-1/6 justify-start items-center text-blue text-2xl">
                 <Link href="/">
                   <button>Flow State</button>{" "}
                 </Link>
               </div>
+              <div className="hidden lg:flex w-4/6 justify-center items-center text-black text-sm">
+                <p>{randomQuote}</p>
+              </div>
 
-              <div className="flex w-1/2 justify-end items-center gap-8 text-blue">
-                <Link href="/">
-                  <button className="hidden lg:block">About</button>
-                </Link>
+              <div className="flex w-1/2 lg:w-1/6 justify-end items-center gap-8 text-blue">
                 <div className="flex justify-center items-center">
                   <button
                     onClick={() => setDropDown(!dropDown)}
@@ -117,7 +166,7 @@ export const Nav: FC = ({}) => {
                     onClick={() => setDropDown(!dropDown)}
                     className="lg:hidden text-blue flex justify-center items-center rounded-full text-sm"
                   >
-                    <IconMenuDeep stroke={2.5}/>
+                    <IconMenuDeep stroke={2.5} />
                   </button>
                 </div>
               </div>
@@ -125,21 +174,19 @@ export const Nav: FC = ({}) => {
             {dropDown && (
               <div
                 ref={dropdownRef}
-                className="flex justify-center fixed top-20 right-8 bg-blue text-white shadow-outline rounded-lg py-4 px-8"
+                className="flex flex-col justify-center items-end fixed top-20 right-16 bg-white text-white shadow-outline rounded-lg py-4 px-8 border gap-2"
               >
-                <button onClick={signOut} className="text-sm">
-                  sign out
-                </button>
+                {dropDownButtons()}
               </div>
             )}
           </nav>
         </>
       ) : (
-        <nav className="w-full p-8 font-black">
+        <nav className="w-full p-8 font-black bg-white shadow-outline z-30">
           <div className="w-full flex">
-            <div className="flex w-1/2 justify-start items-center text-blue text-2xl">
+            <div className="flex w-1/2 justify-start items-center text-blue text-2xl z-10">
               <Link href="/">
-                <button>Flow State</button>{" "}
+                <button className="">Flow State</button>{" "}
               </Link>
             </div>
 

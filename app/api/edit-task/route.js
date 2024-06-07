@@ -20,7 +20,8 @@ export async function PATCH(req) {
         user_id: body.user_id,
         title: body.title,
         description: body.description,
-        status: body.status
+        status: body.status,
+        priority: body.priority
       }
     };
 

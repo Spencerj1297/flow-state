@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface Props {
   options: string[];
-  selectedOption: string
+  label: string;
+  selectedOption: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption}) => {
+export const DropDown: React.FC<Props> = ({
+  options,
+  label,
+  selectedOption,
+  setSelectedOption,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleOptionClick = (option: string) => {
@@ -19,6 +25,7 @@ export const DropDown: React.FC<Props> = ({ options, selectedOption, setSelected
   return (
     <div className="relative inline-block text-left">
       <div>
+        <label>{label}</label>
         <button
           type="button"
           className="inline-flex justify-between w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -67,4 +74,3 @@ export const DropDown: React.FC<Props> = ({ options, selectedOption, setSelected
     </div>
   );
 };
-

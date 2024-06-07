@@ -6,7 +6,7 @@ import { Task } from "../types";
 import { Input } from "./ui/input";
 import { DropDown } from "./ui/DropDown";
 import axios from "axios";
-import { create } from "domain";
+import { getPriority } from "../lib/utils";
 
 interface Props {
   userTasks: Task[];
@@ -14,49 +14,73 @@ interface Props {
 }
 
 export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
+  const [loading, setLoading] = useState<boolean>(false)
   const [addTaskModal, setAddTaskModal] = useState<boolean>(false);
   const [taskModalOpen, setTaskModalOpen] = useState<boolean>(false);
-
+  const [selectedStatus, setSelectedStatue] = useState("new");
+  const [selectedPri, setSelectedPri] = useState("medium");
+  const dropDownOptions = ["new", "in progress", "complete"];
+  const priorityLevel = ["low", "medium", "high"];
   const initialFormData = {
     user_id: "",
     title: "",
     description: "",
     status: "new",
+    priority: "low",
   };
   const [formData, setFormData] = useState<Task>(initialFormData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value, status: selectedOption });
+    setFormData({
+      ...formData,
+      [name]: value,
+      status: selectedStatus,
+      priority: selectedPri,
+    });
   };
-  const [selectedOption, setSelectedOption] = useState("new");
-  const dropDownOptions = ["new", "in progress", "complete"];
 
   const createTaskSection = (task: Task) => {
     return (
       <div className="flex flex-col gap-4">
-        <Input
-          name="title"
-          placeHolder="Enter task title"
-          value={formData.title}
-          handleChange={handleInputChange}
-          type="text"
-          label="Task Title"
-        />
-        <Input
-          name="description"
-          placeHolder="Enter task description"
-          value={formData.description}
-          handleChange={handleInputChange}
-          type="text"
-          label="Task"
-        />
-        <label>Status</label>
-        <DropDown
-          options={dropDownOptions}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
+        <div>
+          <Input
+            name="title"
+            placeHolder="Enter task title"
+            value={formData.title}
+            handleChange={handleInputChange}
+            type="text"
+            label="Task Title"
+          />
+        </div>
+        <div>
+          <Input
+            name="description"
+            placeHolder="Enter task description"
+            value={formData.description}
+            handleChange={handleInputChange}
+            type="text"
+            label="Task"
+          />
+        </div>
+        <div className="w-full flex justify-between items-center">
+          <div className="w-1/2">
+            <DropDown
+              label="Priority"
+              options={priorityLevel}
+              selectedOption={selectedPri}
+              setSelectedOption={setSelectedPri}
+            />
+          </div>
+          <div className="w-1/2 text-left">
+            <DropDown
+              label="Status"
+              options={dropDownOptions}
+              selectedOption={selectedStatus}
+              setSelectedOption={setSelectedStatue}
+            />
+          </div>
+        </div>
       </div>
     );
   };
@@ -64,28 +88,34 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
   const editTaskSection = (task: Task) => {
     return (
       <div className="flex flex-col gap-4">
-        <Input
-          name="title"
-          placeHolder="Enter task title"
-          value={formData.title}
-          handleChange={handleInputChange}
-          type="text"
-          label="Task Title"
-        />
-        <Input
-          name="description"
-          placeHolder="Enter task description"
-          value={formData.description}
-          handleChange={handleInputChange}
-          type="text"
-          label="Task"
-        />
-        <label>Status</label>
-        <DropDown
-          options={dropDownOptions}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
+        <div>
+          <Input
+            name="title"
+            placeHolder="Enter task title"
+            value={formData.title}
+            handleChange={handleInputChange}
+            type="text"
+            label="Task Title"
+          />
+        </div>
+        <div>
+          <Input
+            name="description"
+            placeHolder="Enter task description"
+            value={formData.description}
+            handleChange={handleInputChange}
+            type="text"
+            label="Task"
+          />
+        </div>
+        <div>
+          <DropDown
+            label="Status"
+            options={dropDownOptions}
+            selectedOption={selectedStatus}
+            setSelectedOption={setSelectedStatue}
+          />
+        </div>
       </div>
     );
   };
@@ -114,6 +144,7 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
   };
 
   const createTask = async () => {
+    setLoading(true)
     try {
       const response = await axios.post("/api/create-task", formData);
       if (response.status === 200) {
@@ -128,11 +159,12 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
       }
     }
   };
-  console.log("f", formData);
 
   useEffect(() => {
-    setFormData({ ...formData, status: selectedOption });
-  }, [selectedOption]);
+    setFormData({ ...formData, status: selectedStatus, priority: selectedPri });
+  }, [selectedStatus]);
+
+  console.log("from", formData);
 
   return (
     <>
@@ -156,7 +188,9 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
                   setTaskModalOpen(!taskModalOpen);
                   setFormData(task);
                 }}
-                className="w-full flex flex-col text-left gap-4 rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 bg-white"
+                className={`w-full flex flex-col text-left gap-4 rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 bg-white border ${getPriority(
+                  task
+                )}`}
               >
                 <p className="text-sm">{task?.title}</p>
                 <p className="text-xs">{task?.description}</p>
@@ -178,6 +212,7 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
           modalTitle="Create new Task"
           closeModal={closeAndResetForm}
           customSection={createTaskSection(formData)}
+          loading={loading}
           callBack={createTask}
         />
       )}

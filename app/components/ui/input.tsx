@@ -24,7 +24,7 @@ export const Input: FC<Props> = ({
     setShowPassword((prevState) => !prevState);
   };
 
-  const isPasswordInput = name === "password";
+  const isPasswordInput = name === "password" || name === "confirm";
 
   return isPasswordInput ? (
     <div className="relative">
@@ -42,7 +42,7 @@ export const Input: FC<Props> = ({
         <button
           type="button"
           onClick={togglePasswordVisibility}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+          className="absolute inset-y-0 top-6 right-0 pr-3 flex items-center text-sm leading-5"
         >
           {showPassword ? <IconEye /> : <IconEyeOff />}
         </button>

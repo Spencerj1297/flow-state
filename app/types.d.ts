@@ -3,4 +3,9 @@ export interface Task {
     description: string;
     status: string;
     user_id: string;
+    priority: string;
+  }
+
+  export interface Quote {
+    quote: string;
   }

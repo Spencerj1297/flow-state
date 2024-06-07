@@ -6,13 +6,7 @@ import { NewTask } from "@/app/components/newTasks";
 import { CurrentTask } from "@/app/components/currentTasks";
 import { CompleteTask } from "@/app/components/completeTask";
 import { Loader } from "@/app/components/ui/loader";
-
-interface Task {
-  title: string;
-  description: string;
-  status: string;
-  user_id: string;
-}
+import { Task } from "@/app/types";
 
 const Tasks = () => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);
@@ -47,7 +41,7 @@ const Tasks = () => {
   }, []);
 
   return (
-    <section className="min-h-screen flex flex-col xl:flex-row justify-center items-center gap-4 p-24">
+    <section className="min-h-screen flex flex-col xl:flex-row justify-center items-center gap-4 p-4 pt-32 lg:p-24 lg:pt-32 lg:pl-48">
       {loading ? (
         <Loader />
       ) : (

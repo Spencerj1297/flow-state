@@ -6,11 +6,12 @@ import { IconCircleCheck } from "@tabler/icons-react";
 import { get } from "http";
 
 const SignIn = () => {
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    confirm: "",
   });
 
   const handleInputChange = (e: any) => {
@@ -18,24 +19,19 @@ const SignIn = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // NOT SURE IF CONFIRMING PASSWORD IS WANTED
-
-  // const handleConfirmPassword = useCallback(
-  //   (e: ChangeEvent<HTMLInputElement>) => {
-  //     setConfirmPassword(e.target.value);
-  //   },
-  //   []
-  // );
-
   const validatePassword = () => {
-    const regex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/~`])[A-Za-z\d!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/~`]{8,}$/;
-    return regex.test(formData.password);
-  };
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/~`])[A-Za-z\d!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/~`]{8,}$/;
 
+    if(formData.confirm !== formData.password){
+      console.log("Password not matching")
+    }else{
+        return regex.test(formData.password);
+      }
+    }
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    
     if (!validatePassword()) {
       console.error("Password does not match the criteria.");
     } else {
@@ -62,53 +58,61 @@ const SignIn = () => {
     ];
 
     return rules.map((rule, ind) => (
-      <p key={ind} className="flex gap-2 text-lightGrey">
+      <p key={ind} className="flex gap-2 text-black text-sm">
         {rule}
       </p>
     ));
   };
 
-
-  console.log("form data", formData);
-  console.log("password", confirmPassword);
+  console.log("dat data", formData);
 
   return (
-    <section className="min-h-screen flex justify-center items-center">
-      <div className="hidden lg:flex lg:w-1/2 lg:text-7xl xl:text-8xl text-blue flex-col justify-center gap-16 px-16 font-bold">
-        <h2 className="text-shadow">Find Your Flow </h2>
-        <h2 className="text-shadow">Stay Organized</h2>
-        <h2 className="text-shadow">Stay Focused</h2>
+    <section className="min-h-screen flex justify-center items-center bg-seafoam lg:py-24 px-4 lg:px-44">
+      <div className="hidden lg:flex lg:w-2/3 lg:text-7xl xl:text-8xl text-blue flex-col justify-start gap-16 px-16 font-bold">
+        <h2>Find Your Flow </h2>
+        <h2>Stay Organized</h2>
+        <h2>Stay Focused</h2>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="lg:w-1/2 h-full flex flex-col gap-4 p-8 "
+        className="lg:w-1/3 flex flex-col lg:px-8 gap-8"
       >
-        <Input
-          name="username"
-          placeHolder="Username"
-          value={formData.username}
-          callBack={handleInputChange}
-          type="text"
-        />
-        <Input
-          name="email"
-          placeHolder="Email"
-          value={formData.email}
-          callBack={handleInputChange}
-          type="text"
-        />
-        <Input
-          name="password"
-          placeHolder="Password"
-          value={formData.password}
-          callBack={handleInputChange}
-          type="password"
-        />
-        <p className="font-bold">Password must:</p>
-        <div className="px-4">{getCriteria()}</div>
+        <div>
+          <Input
+            label="Email"
+            name="email"
+            placeHolder="Email"
+            value={formData.email}
+            handleChange={handleInputChange}
+            type="text"
+          />
+        </div>
+        <div>
+          <Input
+            label="Password"
+            name="password"
+            placeHolder="Password"
+            value={formData.password}
+            handleChange={handleInputChange}
+            type="password"
+          />
+        </div>
+        <div>
+          <Input
+            label="Confirm Password"
+            name="confirm"
+            placeHolder="Password"
+            value={formData.confirm}
+            handleChange={handleInputChange}
+            type="password"
+          />
+          <p className="text-sm font-bold">Password must:</p>
+          <div className="px-4">{getCriteria()}</div>
+        </div>
+
         <button
-          className="bg-blue p-4 text-xl text-white rounded-xl hover:bg-opacity-80 shadow-custom"
+          className="bg-blue px-4 py-2 text-xl text-white rounded-xl hover:bg-opacity-80 shadow-custom"
           type="submit"
         >
           Sign Up

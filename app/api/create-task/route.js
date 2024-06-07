@@ -23,6 +23,7 @@ export async function POST(req) {
       title: body.title,
       description: body.description,
       status: body.status,
+      priority: body.priority
     };
 
     const tasksCursor = await collection.insertOne(query);

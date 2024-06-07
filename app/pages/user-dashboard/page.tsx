@@ -1,14 +1,16 @@
 "use client";
 import Cookies from "js-cookie";
-import { Task } from "@/app/types";
+import { Task} from "@/app/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { IconSquare, IconSquareCheck } from "@tabler/icons-react";
 import { Loader } from "@/app/components/ui/loader";
+import { getPriority } from "@/app/lib/utils";
 
 const UserDashboard = () => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const initialFormData = {
@@ -17,6 +19,7 @@ const UserDashboard = () => {
     title: "",
     description: "",
     status: "in progress",
+    priority: "low",
   };
 
   const [formData, setFormData] = useState<Task>(initialFormData);
@@ -70,12 +73,14 @@ const UserDashboard = () => {
     }
   };
 
+
   useEffect(() => {
     getUserTasks();
   }, []);
+
   return (
     <>
-      <section className="flex flex-col lg:flex-row gap-4 flex px-4 lg:px-32 pt-32 lg:pt-36">
+      <section className="flex flex-col lg:flex-row gap-4 flex px-4 lg:px-32 pt-32 lg:pt-36 lg:pl-48">
         <div className="bg-white w-full lg:w-1/2 h-96 text-center p-8 rounded-lg shadow-custom overflow-hidden overflow-y-scroll hide-scrollbar">
           <h2 className="w-full flex justify-between border-b py-2">
             Task List for: Future Today Date{" "}
@@ -96,7 +101,9 @@ const UserDashboard = () => {
                 .map((task, ind) => (
                   <div
                     key={ind}
-                    className="w-full flex rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 text-blue border-2 border-blue"
+                    className={`w-full flex rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 border-2 ${getPriority(
+                      task
+                    )}`}
                   >
                     <div className="h-full w-[90%] text-left">
                       <p className="text-sm">{task?.title}</p>
@@ -107,7 +114,10 @@ const UserDashboard = () => {
                       onMouseLeave={handleMouseLeave}
                       className="h-12 flex justify-end w-[10%]"
                     >
-                      <span onClick={editTask} className="text-grey hover:text-seafoam">
+                      <span
+                        onClick={editTask}
+                        className="text-grey hover:text-seafoam"
+                      >
                         <IconSquareCheck />
                       </span>
                     </div>
@@ -125,7 +135,7 @@ const UserDashboard = () => {
           </h2>
         </div>
       </section>
-      <section className="flex gap-4 flex px-32 mt-4 pb-32">
+      <section className="flex gap-4 flex px-32 mt-4 pb-32 lg:pl-48">
         <div className="bg-white w-full min-h-96 text-center p-8 rounded-lg shadow-custom">
           <h2 className="w-full flex justify-between border-b py-2">
             OTHER{" "}

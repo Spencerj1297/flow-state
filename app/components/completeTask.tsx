@@ -6,6 +6,7 @@ import { Input } from "./ui/input";
 import { DropDown } from "./ui/DropDown";
 import axios from "axios";
 import { IconSquare, IconTrash } from "@tabler/icons-react";
+import { getPriority } from "../lib/utils";
 
 interface Props {
   userTasks: Task[];
@@ -14,23 +15,26 @@ interface Props {
 
 export const CompleteTask: FC<Props> = ({ userTasks, getTask }) => {
   const [taskModalOpen, setTaskModalOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState("complete");
+  const [selectedStatus, setSelectedStatus] = useState("complete");
   const dropDownOptions = ["new", "in progress", "complete"];
   const [activeDelete, setActiveDelete] = useState<boolean>(false);
   const [arrDeletedTask, setArrDeletedTask] = useState<Task[]>([]);
+  const priorityLevel = ["low", "medium", "high"];
+  const [selectedPri, setSelectedPri] = useState("medium");
 
   const initialFormData = {
     user_id: "",
     title: "",
     description: "",
     status: "complete",
+    priority: "",
   };
 
   const [formData, setFormData] = useState<Task>(initialFormData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value, status: selectedOption });
+    setFormData({ ...formData, [name]: value, status: selectedStatus, priority: selectedPri });
   };
   console.log(formData);
   const editTaskSection = (task: Task) => {
@@ -52,12 +56,24 @@ export const CompleteTask: FC<Props> = ({ userTasks, getTask }) => {
           type="text"
           label="Task"
         />
-        <label>Status</label>
-        <DropDown
-          options={dropDownOptions}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
+        <div className="w-full flex justify-between items-center">
+          <div className="w-1/2">
+            <DropDown
+              label="Priority"
+              options={priorityLevel}
+              selectedOption={selectedPri}
+              setSelectedOption={setSelectedPri}
+            />
+          </div>
+          <div className="w-1/2 text-left">
+            <DropDown
+              label="Status"
+              options={dropDownOptions}
+              selectedOption={selectedStatus}
+              setSelectedOption={setSelectedStatus}
+            />
+          </div>
+        </div>
       </div>
     );
   };
@@ -114,11 +130,8 @@ export const CompleteTask: FC<Props> = ({ userTasks, getTask }) => {
   };
 
   useEffect(() => {
-    setFormData({ ...formData, status: selectedOption });
-  }, [selectedOption]);
-
-  console.log("form data", formData);
-  console.log("arr", arrDeletedTask);
+    setFormData({ ...formData, status: selectedStatus, priority: selectedPri });
+  }, [selectedStatus, selectedPri]);
 
   return (
     <>
@@ -154,7 +167,9 @@ export const CompleteTask: FC<Props> = ({ userTasks, getTask }) => {
                 }}
                 className={`${
                   activeDelete ? "opacity-100" : "opacity-55"
-                } hover:opacity-100 w-full flex flex-col text-left gap-4 rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 bg-white`}
+                } hover:opacity-100 w-full flex flex-col text-left gap-4 rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 bg-white border ${getPriority(
+                  task
+                )}`}
               >
                 <p className="text-sm">{task?.title}</p>
                 <p className="text-xs">{task?.description}</p>

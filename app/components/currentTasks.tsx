@@ -5,7 +5,8 @@ import { Task } from "../types";
 import { Input } from "./ui/input";
 import { DropDown } from "./ui/DropDown";
 import axios from "axios";
-import { IconSquare, IconSquareCheck } from "@tabler/icons-react";
+import { IconSquareCheck } from "@tabler/icons-react";
+import { getPriority } from "../lib/utils";
 
 interface Props {
   userTasks: Task[];
@@ -14,20 +15,28 @@ interface Props {
 
 export const CurrentTask: FC<Props> = ({ userTasks, getTask }) => {
   const [taskModalOpen, setTaskModalOpen] = useState<boolean>(false);
+  const priorityLevel = ["low", "medium", "high"];
+  const [selectedPri, setSelectedPri] = useState("medium");
 
   const initialFormData = {
     user_id: "",
     title: "",
     description: "",
     status: "in progress",
+    priority: "",
   };
   const [formData, setFormData] = useState<Task>(initialFormData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value, status: selectedOption });
+    setFormData({
+      ...formData,
+      [name]: value,
+      status: selectedStatus,
+      priority: selectedPri,
+    });
   };
-  const [selectedOption, setSelectedOption] = useState("in progress");
+  const [selectedStatus, setSelectedStatus] = useState("in progress");
   const dropDownOptions = ["new", "in progress", "complete"];
 
   const editTaskSection = (task: Task) => {
@@ -49,17 +58,27 @@ export const CurrentTask: FC<Props> = ({ userTasks, getTask }) => {
           type="text"
           label="Task"
         />
-        <label>Status</label>
-        <DropDown
-          options={dropDownOptions}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
+        <div className="w-full flex justify-between items-center">
+          <div className="w-1/2">
+            <DropDown
+              label="Priority"
+              options={priorityLevel}
+              selectedOption={selectedPri}
+              setSelectedOption={setSelectedPri}
+            />
+          </div>
+          <div className="w-1/2 text-left">
+            <DropDown
+              label="Status"
+              options={dropDownOptions}
+              selectedOption={selectedStatus}
+              setSelectedOption={setSelectedStatus}
+            />
+          </div>
+        </div>
       </div>
     );
   };
-
-  console.log(formData);
 
   const editTask = async () => {
     try {
@@ -84,8 +103,10 @@ export const CurrentTask: FC<Props> = ({ userTasks, getTask }) => {
   };
 
   useEffect(() => {
-    setFormData({ ...formData, status: selectedOption });
-  }, [selectedOption]);
+    setFormData({ ...formData, status: selectedStatus, priority: selectedPri });
+  }, [selectedStatus, selectedPri]);
+
+  console.log("f", formData);
 
   return (
     <>
@@ -101,7 +122,7 @@ export const CurrentTask: FC<Props> = ({ userTasks, getTask }) => {
                   setTaskModalOpen(!taskModalOpen);
                   setFormData(task);
                 }}
-                className="w-full flex flex-col text-left gap-4 rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 bg-white"
+                className={`w-full flex flex-col text-left gap-4 rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 bg-white border ${getPriority(task)}`}
               >
                 <p className="text-sm">{task?.title}</p>
                 <p className="text-xs">{task?.description}</p>
