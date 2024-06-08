@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC} from "react";
 import { IconX } from "@tabler/icons-react";
 import { Loader } from "./loader";
 
@@ -8,21 +8,18 @@ interface Props {
   closeModal: () => void;
   callBack?: any;
   secondaryCallBack?: any;
-  handleInput?: any;
   customSection?: any;
   isEdit?: boolean;
   loading?: boolean;
 }
 
-export const Modal: FC<Props> = ({
-  modalTitle,
-  closeModal,
-  callBack,
-  secondaryCallBack,
-  customSection,
-  isEdit,
-  loading,
-}) => {
+export const Modal: FC<Props> = ({modalTitle, closeModal, callBack, secondaryCallBack, customSection, isEdit, loading, }) => {
+
+  const getPage = () => {
+    const regex = new RegExp("task", "i");
+    return regex.test(modalTitle);
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-10 bg-black bg-opacity-30">
       <div className="flex flex-col gap-16 bg-white rounded-lg shadow-lg p-6 max-w-lg w-full">
@@ -61,7 +58,7 @@ export const Modal: FC<Props> = ({
             onClick={callBack}
             className="bg-blue px-4 py-2 text-md text-white rounded-xl hover:bg-opacity-80 shadow-custom"
           >
-            Add Task
+            {getPage() ? "Add Task" : "Add Application"}
           </button>
         )}
       </div>

@@ -1,19 +1,19 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import { Modal } from "./ui/modal";
-import { Task } from "../types";
-import { Input } from "./ui/input";
-import { DropDown } from "./ui/DropDown";
+import { Modal } from "../ui/modal";
+import { Task } from "@/app/types";
+import { Input } from "../ui/input";
+import { DropDown } from "../ui/DropDown";
 import axios from "axios";
 import { IconSquare, IconTrash } from "@tabler/icons-react";
-import { getPriority } from "../lib/utils";
+import { getPriority } from "@/app/lib/utils";
 
 interface Props {
   userTasks: Task[];
   getTask: () => void;
 }
 
-export const CompleteTask: FC<Props> = ({ userTasks, getTask }) => {
+export const CompleteTasks: FC<Props> = ({ userTasks, getTask }) => {
   const [taskModalOpen, setTaskModalOpen] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState("complete");
   const dropDownOptions = ["new", "in progress", "complete"];

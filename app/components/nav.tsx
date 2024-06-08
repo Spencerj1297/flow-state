@@ -3,7 +3,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { FC, useEffect, useState, useRef, useCallback } from "react";
 import {
-  IconHome,
+  IconFileDescription,
   IconLayoutDashboard,
   IconListCheck,
   IconMenuDeep,
@@ -11,6 +11,7 @@ import {
 } from "@tabler/icons-react";
 import axios from "axios";
 import { signOut } from "../lib/utils";
+import { MobileNavMenu } from "./mobileNavMenu";
 
 
 export const Nav: FC = ({}) => {
@@ -18,6 +19,7 @@ export const Nav: FC = ({}) => {
   const [userName, setUserName] = useState<string | undefined>(undefined);
   const [randomQuote, setRandomQuote] = useState<string>("");
   const [dropDown, setDropDown] = useState<boolean>(false);
+  const [mobileNav, setMobileNav] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const homePage = "/";
 
@@ -106,24 +108,25 @@ export const Nav: FC = ({}) => {
             </div>
 
             <div className="flex flex-col justify-center items-center h-1/3 gap-4">
-              <div className="flex justify-center items-center text-white hover:text-seafoam">
-                <Link href="/pages/user-dashboard">
-                  <div className="bg-blue rounded-md p-1">
-                    <IconHome />
-                  </div>
-                </Link>
-              </div>
-              <div className="flex justify-center items-center text-white hover:text-seafoam">
+            <div className="flex justify-center items-center text-white hover:text-seafoam">
                 <Link href="/pages/user-dashboard">
                   <div className="bg-blue rounded-md p-1">
                     <IconLayoutDashboard />
                   </div>
                 </Link>
               </div>
+
               <div className="flex justify-center items-center text-white hover:text-seafoam">
                 <Link href="/pages/tasks">
                   <div className="bg-blue rounded-md p-1">
                     <IconListCheck />
+                  </div>
+                </Link>
+              </div>
+              <div className="flex justify-center items-center text-white hover:text-seafoam">
+                <Link href="/pages/applications">
+                  <div className="bg-blue rounded-md p-1">
+                    <IconFileDescription />
                   </div>
                 </Link>
               </div>
@@ -163,10 +166,10 @@ export const Nav: FC = ({}) => {
                 </div>
                 <div className="flex justify-center items-center">
                   <button
-                    onClick={() => setDropDown(!dropDown)}
+                    onClick={() => setMobileNav(!mobileNav)}
                     className="lg:hidden text-blue flex justify-center items-center rounded-full text-sm"
                   >
-                    <IconMenuDeep stroke={2.5} />
+                    <IconMenuDeep size={40}/>
                   </button>
                 </div>
               </div>
@@ -201,6 +204,7 @@ export const Nav: FC = ({}) => {
           </div>
         </nav>
       )}
+      {mobileNav && <MobileNavMenu setOpen={setMobileNav}/>}
     </>
   );
 };

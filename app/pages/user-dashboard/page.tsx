@@ -1,6 +1,6 @@
 "use client";
 import Cookies from "js-cookie";
-import { Task} from "@/app/types";
+import { Application, Task } from "@/app/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -10,7 +10,8 @@ import { getPriority } from "@/app/lib/utils";
 
 const UserDashboard = () => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);
-
+  const [userApplications, setUserApplications] = useState<Application[]>([]);
+  const [applicationCount, setAppicationCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
   const initialFormData = {
@@ -73,11 +74,35 @@ const UserDashboard = () => {
     }
   };
 
+  const getUserApplications = async () => {
+    setLoading(true);
+    try {
+      const id = {
+        user_id: Cookies.get("user"),
+      };
+      const response = await axios.post("/api/get-applications", id);
+      if (response.status === 200) {
+        setUserApplications(response.data);
+        setAppicationCount(response.data.length);
+        setLoading(false);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+        setLoading(false);
+      } else {
+        console.error("Unknown error has occurred:", error);
+        setLoading(false);
+      }
+    }
+  };
 
   useEffect(() => {
+    getUserApplications();
     getUserTasks();
   }, []);
 
+  console.log(userApplications);
   return (
     <>
       <section className="flex flex-col lg:flex-row gap-4 flex px-4 lg:px-32 pt-32 lg:pt-36 lg:pl-48">
@@ -126,16 +151,32 @@ const UserDashboard = () => {
             )}
           </div>
         </div>
-        <div className="bg-white w-full lg:w-1/2 h-96 text-center p-8 rounded-lg shadow-custom">
+        <div className="bg-white w-full lg:w-1/2 text-center p-8 rounded-lg shadow-custom">
           <h2 className="w-full flex justify-between border-b py-2">
             Job application{" "}
-            <button className="bg-blue text-white p-2 rounded-full text-xs">
-              Go to applications
-            </button>
+            <Link href="/pages/applications">
+              <button className="bg-blue text-white p-2 rounded-full text-xs">
+                Go to applications
+              </button>
+            </Link>
           </h2>
+          <div className="h-full w-full flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 lg:mt-0">
+            <div className="flex flex-col justify-center items-center w-1/2">
+              <h3 className="flex flex-col justify-center items-center text-3xl text-blue bg-blue text-white h-44 w-44 xl:h-52 xl:w-52 rounded-xl gap-4">
+                Total
+                <span className="text-4xl">{applicationCount}</span>
+              </h3>
+            </div>
+            <div className="flex flex-col justify-center items-center w-1/2">
+              <h3 className="flex flex-col justify-center items-center text-3xl text-blue bg-blue text-white h-44 w-44 xl:h-52 xl:w-52 rounded-xl gap-4">
+                This Week
+                <span className="text-4xl">{applicationCount}</span>
+              </h3>
+            </div>
+          </div>
         </div>
       </section>
-      <section className="flex gap-4 flex px-32 mt-4 pb-32 lg:pl-48">
+      <section className="flex flex-col lg:flex-row gap-4 flex px-4 lg:px-32 pt-4 lg:pl-48">
         <div className="bg-white w-full min-h-96 text-center p-8 rounded-lg shadow-custom">
           <h2 className="w-full flex justify-between border-b py-2">
             OTHER{" "}

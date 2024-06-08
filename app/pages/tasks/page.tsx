@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { NewTask } from "@/app/components/newTasks";
-import { CurrentTask } from "@/app/components/currentTasks";
-import { CompleteTask } from "@/app/components/completeTask";
+import { NewTask } from "@/app/components/taskPage/newTasks";
+import { CurrentTasks } from "@/app/components/taskPage/currentTasks";
+import { CompleteTasks } from "@/app/components/taskPage/completeTasks";
+
 import { Loader } from "@/app/components/ui/loader";
 import { Task } from "@/app/types";
 
@@ -47,8 +48,8 @@ const Tasks = () => {
       ) : (
         <>
           <NewTask userTasks={userTasks} getTask={getUserTasks} />
-          <CurrentTask userTasks={userTasks} getTask={getUserTasks} />
-          <CompleteTask userTasks={userTasks} getTask={getUserTasks} />
+          <CurrentTasks userTasks={userTasks} getTask={getUserTasks} />
+          <CompleteTasks userTasks={userTasks} getTask={getUserTasks} />
         </>
       )}
     </section>

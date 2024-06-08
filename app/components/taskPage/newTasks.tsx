@@ -1,12 +1,12 @@
 "use client";
 import { IconSquareRoundedPlus } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
-import { Modal } from "./ui/modal";
-import { Task } from "../types";
-import { Input } from "./ui/input";
-import { DropDown } from "./ui/DropDown";
+import { Modal } from "../ui/modal";
+import { Task } from "@/app/types";
+import { Input } from "../ui/input";
+import { DropDown } from "../ui/DropDown";
 import axios from "axios";
-import { getPriority } from "../lib/utils";
+import { getPriority } from "@/app/lib/utils";
 
 interface Props {
   userTasks: Task[];

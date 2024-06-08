@@ -2,11 +2,9 @@
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import axios from "axios";
-import { useUser } from "../../context/user";
 import Cookies from "js-cookie";
 
 export const SignInForm = () => {
-  const { user, setUser } = useUser();
   const [formData, setFormData] = useState({
     email: "",
     password: "",

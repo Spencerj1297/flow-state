@@ -1,23 +1,20 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import { Modal } from "./ui/modal";
-import { Task } from "../types";
-import { Input } from "./ui/input";
-import { DropDown } from "./ui/DropDown";
+import { Modal } from "../ui/modal";
+import { Task } from "@/app/types";
+import { Input } from "../ui/input";
+import { DropDown } from "../ui/DropDown";
 import axios from "axios";
 import { IconSquareCheck } from "@tabler/icons-react";
-import { getPriority } from "../lib/utils";
+import { getPriority } from "@/app/lib/utils";
 
 interface Props {
   userTasks: Task[];
   getTask: () => void;
 }
 
-export const CurrentTask: FC<Props> = ({ userTasks, getTask }) => {
+export const CurrentTasks: FC<Props> = ({ userTasks, getTask }) => {
   const [taskModalOpen, setTaskModalOpen] = useState<boolean>(false);
-  const priorityLevel = ["low", "medium", "high"];
-  const [selectedPri, setSelectedPri] = useState("medium");
-
   const initialFormData = {
     user_id: "",
     title: "",
@@ -25,7 +22,10 @@ export const CurrentTask: FC<Props> = ({ userTasks, getTask }) => {
     status: "in progress",
     priority: "",
   };
+
   const [formData, setFormData] = useState<Task>(initialFormData);
+  const priorityLevel = ["low", "medium", "high"];
+  const [selectedPri, setSelectedPri] = useState(formData.priority);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -122,13 +122,15 @@ export const CurrentTask: FC<Props> = ({ userTasks, getTask }) => {
                   setTaskModalOpen(!taskModalOpen);
                   setFormData(task);
                 }}
-                className={`w-full flex flex-col text-left gap-4 rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 bg-white border ${getPriority(task)}`}
+                className={`w-full flex flex-col text-left gap-4 rounded-lg shadow-outline transition-transform transform hover:scale-102 duration-300 ease-in-out p-4 bg-white border ${getPriority(
+                  task
+                )}`}
               >
                 <p className="text-sm">{task?.title}</p>
                 <p className="text-xs">{task?.description}</p>
-                <span className="absolute top-4 right-4 text-grey hover:text-seafoam">
+                {/* <span className="absolute top-4 right-4 text-grey hover:text-seafoam">
                   <IconSquareCheck />
-                </span>
+                </span> */}
               </button>
             </>
           ))}
