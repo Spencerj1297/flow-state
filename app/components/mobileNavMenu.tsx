@@ -29,7 +29,7 @@ export const MobileNavMenu: FC<Props> = ({ setOpen }) => {
   ];
 
   return (
-    <section className="flex flex-col text-4xl justify-center items-center fixed top-0 left-0 bg-seafoam h-screen w-full z-30 opacity-80 ">
+    <section className="flex flex-col text-4xl justify-center items-center fixed top-0 left-0 bg-blue h-screen w-full z-30 opacity-90 text-white">
       <button onClick={() => setOpen(false)} className="fixed top-2 right-2">
         <IconX size={40} />
       </button>
