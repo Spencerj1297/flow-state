@@ -12,7 +12,7 @@ export async function POST(req) {
 
     const query = { user_id: body.user_id };
     const tasksCursor = await collection.find(query);
-    const applications = await tasksCursor.toArray();
+    const applications = (await tasksCursor.toArray()).reverse();
 
     if (applications.length >= 0) {
       return new Response(JSON.stringify(applications), {
