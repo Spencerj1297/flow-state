@@ -198,7 +198,9 @@ export const Nav: FC = ({}) => {
                 <button>About</button>
               </Link>
               <Link href="/pages/sign-up">
-                <button>Sign up</button>
+                <button
+                disabled
+                >Sign up</button>
               </Link>
             </div>
           </div>
