@@ -8,25 +8,25 @@ body {
 }
 
 @layer utilities {
-  /* .text-balance {
+  .text-balance {
     text-wrap: balance;
-  } */
+  }
 }
 
 /* Custom CSS to hide scrollbar */
 .hide-scrollbar {
-  /* scrollbar-width: none;
-  -ms-overflow-style: none; */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 /* Hide scrollbar for WebKit (Chrome, Safari, etc.) */
 .hide-scrollbar::-webkit-scrollbar {
-  /* display: none; */
+  display: none;
 }
 
 /* Increase gap for underline text */
 .underline-offset {
-  /* text-underline-offset: 4px; */
+  text-underline-offset: 4px;
 }
 
 
