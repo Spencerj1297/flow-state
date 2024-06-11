@@ -13,7 +13,6 @@ import axios from "axios";
 import { signOut } from "../lib/utils";
 import { MobileNavMenu } from "./mobileNavMenu";
 
-
 export const Nav: FC = ({}) => {
   const [user, setUser] = useState<string | undefined>(undefined);
   const [userName, setUserName] = useState<string | undefined>(undefined);
@@ -45,7 +44,7 @@ export const Nav: FC = ({}) => {
         callback: signOut,
       },
     ];
-  
+
     return buttons.map((button, ind) => (
       <div key={ind}>
         <button onClick={button.callback} className="text-sm text-blue">
@@ -55,7 +54,6 @@ export const Nav: FC = ({}) => {
       </div>
     ));
   };
-  
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
@@ -85,7 +83,9 @@ export const Nav: FC = ({}) => {
   };
 
   useEffect(() => {
-    getQuotes();
+    if (user) {
+      getQuotes();
+    }
   }, []);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export const Nav: FC = ({}) => {
             </div>
 
             <div className="flex flex-col justify-center items-center h-1/3 gap-4">
-            <div className="flex justify-center items-center text-white hover:text-seafoam">
+              <div className="flex justify-center items-center text-white hover:text-seafoam">
                 <Link href="/pages/user-dashboard">
                   <div className="bg-blue rounded-md p-1">
                     <IconLayoutDashboard />
@@ -169,7 +169,7 @@ export const Nav: FC = ({}) => {
                     onClick={() => setMobileNav(!mobileNav)}
                     className="lg:hidden text-blue flex justify-center items-center rounded-full text-sm"
                   >
-                    <IconMenuDeep size={40}/>
+                    <IconMenuDeep size={40} />
                   </button>
                 </div>
               </div>
@@ -198,15 +198,13 @@ export const Nav: FC = ({}) => {
                 <button>About</button>
               </Link>
               <Link href="/pages/sign-up">
-                <button
-                disabled
-                >Sign up</button>
+                <button disabled>Sign up</button>
               </Link>
             </div>
           </div>
         </nav>
       )}
-      {mobileNav && <MobileNavMenu setOpen={setMobileNav}/>}
+      {mobileNav && <MobileNavMenu setOpen={setMobileNav} />}
     </>
   );
 };
