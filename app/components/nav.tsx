@@ -194,7 +194,7 @@ export const Nav: FC = ({}) => {
             </div>
 
             <div className="flex w-1/2 justify-end items-center gap-8 text-blue">
-              <Link href="/about">
+              <Link href="/pages/about">
                 <button>About</button>
               </Link>
               <Link href="/pages/sign-up">
