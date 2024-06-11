@@ -7,11 +7,11 @@ body {
   background-repeat: no-repeat;
 }
 
-@layer utilities {
+/* @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-}
+} */
 
 /* Custom CSS to hide scrollbar */
 .hide-scrollbar {

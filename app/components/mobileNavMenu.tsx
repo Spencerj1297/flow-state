@@ -35,8 +35,8 @@ export const MobileNavMenu: FC<Props> = ({ setOpen }) => {
       </button>
       <div className="flex flex-col justify-center gap-4">
         {navLinks.map((link, ind) => (
-          <Link href={link.link}>
-            <div key={ind}>
+          <Link href={link.link} key={ind}>
+            <div>
               <button 
               onClick={() => setOpen(false)}
               className="flex gap-4">
