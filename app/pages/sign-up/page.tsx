@@ -6,13 +6,13 @@ import { IconCircleCheck } from "@tabler/icons-react";
 import { get } from "http";
 
 const SignIn = () => {
-  
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     confirm: "",
   });
+  const [allow, setAllow] = useState<boolean>(false);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -20,29 +20,31 @@ const SignIn = () => {
   };
 
   const validatePassword = () => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/~`])[A-Za-z\d!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/~`]{8,}$/;
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/~`])[A-Za-z\d!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/~`]{8,}$/;
 
-    if(formData.confirm !== formData.password){
-      console.log("Password not matching")
-    }else{
-        return regex.test(formData.password);
-      }
+    if (formData.confirm !== formData.password) {
+      console.log("Password not matching");
+    } else {
+      return regex.test(formData.password);
     }
-  
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (!validatePassword()) {
-      console.error("Password does not match the criteria.");
-    } else {
-      try {
-        const response = await axios.post("/api/create-new-user", formData);
-        console.log("Signup successful:", response.data);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error("Error:", error.message);
-        } else {
-          console.error("Unknown error has occurred:", error);
+    if (allow) {
+      if (!validatePassword()) {
+        console.error("Password does not match the criteria.");
+      } else {
+        try {
+          const response = await axios.post("/api/create-new-user", formData);
+          console.log("Signup successful:", response.data);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            console.error("Error:", error.message);
+          } else {
+            console.error("Unknown error has occurred:", error);
+          }
         }
       }
     }
@@ -72,6 +74,10 @@ const SignIn = () => {
         <h2>Find Your Flow </h2>
         <h2>Stay Organized</h2>
         <h2>Stay Focused</h2>
+        <button
+          onClick={() => setAllow(true)}
+          className="cursor-pointer h-2 w-2"
+        ></button>
       </div>
 
       <form
