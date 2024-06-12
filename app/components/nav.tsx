@@ -14,7 +14,7 @@ import { signOut } from "../lib/utils";
 import { MobileNavMenu } from "./mobileNavMenu";
 
 export const Nav: FC = ({}) => {
-  const [user, setUser] = useState<string | undefined>(undefined);
+  const [email, setEmail] = useState<string | undefined>(undefined);
   const [userName, setUserName] = useState<string | undefined>(undefined);
   const [randomQuote, setRandomQuote] = useState<string>("");
   const [dropDown, setDropDown] = useState<boolean>(false);
@@ -23,9 +23,9 @@ export const Nav: FC = ({}) => {
   const homePage = "/";
 
   useEffect(() => {
-    const userCookie = Cookies.get("user");
+    const emailCookie = Cookies.get("email");
     const nameCookie = Cookies.get("first_name");
-    setUser(userCookie);
+    setEmail(emailCookie);
     setUserName(nameCookie);
   }, []);
 
@@ -83,7 +83,7 @@ export const Nav: FC = ({}) => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (email) {
       getQuotes();
     }
   }, []);
@@ -98,7 +98,7 @@ export const Nav: FC = ({}) => {
 
   return (
     <>
-      {user && window.location.pathname !== homePage ? (
+      {email && window.location.pathname !== homePage ? (
         <>
           <nav className="hidden lg:flex flex-col text-center justify-between fixed left-0 h-screen p-2 bg-blue">
             <div className="h-1/3 flex  justify-center items-start">
@@ -161,7 +161,7 @@ export const Nav: FC = ({}) => {
                     onClick={() => setDropDown(!dropDown)}
                     className="hidden lg:block h-8 w-8 bg-blue text-white flex justify-center items-center rounded-full text-sm"
                   >
-                    {userName?.slice(0, 1)}
+                    {userName ? userName?.slice(0, 1) : email.slice(0,1).toUpperCase()}
                   </button>
                 </div>
                 <div className="flex justify-center items-center">
@@ -198,7 +198,7 @@ export const Nav: FC = ({}) => {
                 <button>About</button>
               </Link>
               <Link href="/pages/sign-up">
-                <button disabled>Sign up</button>
+                <button >Sign up</button>
               </Link>
             </div>
           </div>

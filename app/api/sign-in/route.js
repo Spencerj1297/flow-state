@@ -1,24 +1,28 @@
 import { MongoClient } from "mongodb";
+import bcrypt from "bcrypt";
 
 export async function POST(req) {
   const client = new MongoClient(process.env.MONGODB_URI);
 
   try {
     const body = await req.json();
-    console.log("body", body);
+  
+    console.log("-------- body", body)
+
     await client.connect();
     const database = client.db("flow_state");
     const collection = database.collection("users");
-    const query = { email: body.email, password: body.password };
-    const user = await collection.findOne(query);
-    console.log("USERS INFO", user);
+
+    const user = await collection.findOne({ email: body.email });
+
+    const passwordMatch = await bcrypt.compare(body.password, user.hash);
 
     if (user) {
       return new Response(
         JSON.stringify({
           message: "Sign in successful",
           redirectUrl: "pages/user-dashboard",
-          user: user
+          user: user,
         }),
         {
           status: 200,
@@ -71,5 +75,5 @@ export async function POST(req) {
 //     }
 //   } catch (err: any) {
 //    return NextResponse.json({error: err.message})
-//   } 
+//   }
 // }
