@@ -1,6 +1,6 @@
 "use client";
 import Cookies from "js-cookie";
-import { Application, Task } from "@/app/types";
+import { Application, Task } from "../../types/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";

@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { Task } from "../types";
+import { Task } from "../types/types";
 import Cookies from "js-cookie";
 
 export const getPriority = (task: Task) => {

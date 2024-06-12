@@ -7,7 +7,7 @@ import { CurrentTasks } from "@/app/components/taskPage/currentTasks";
 import { CompleteTasks } from "@/app/components/taskPage/completeTasks";
 
 import { Loader } from "@/app/components/ui/loader";
-import { Task } from "@/app/types";
+import { Task } from "../../types/types";
 
 const Tasks = () => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);

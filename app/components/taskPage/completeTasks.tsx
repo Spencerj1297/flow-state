@@ -1,7 +1,7 @@
 "use client";
 import { FC, useEffect, useState } from "react";
 import { Modal } from "../ui/modal";
-import { Task } from "@/app/types";
+import { Task } from "../../types/types"
 import { Input } from "../ui/input";
 import { DropDown } from "../ui/DropDown";
 import axios from "axios";

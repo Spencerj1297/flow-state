@@ -4,26 +4,21 @@ export async function POST(req) {
   const client = new MongoClient(process.env.MONGODB_URI);
 
   try {
-    console.log("Connecting to MongoDB...");
-    await client.connect();
-    console.log("Connected to MongoDB!");
-
     const body = await req.json();
-    console.log("Request body:", body);
-
+    console.log("body", body);
+    await client.connect();
     const database = client.db("flow_state");
     const collection = database.collection("users");
-
     const query = { email: body.email, password: body.password };
     const user = await collection.findOne(query);
-    console.log("User info:", user);
+    console.log("USERS INFO", user);
 
     if (user) {
       return new Response(
         JSON.stringify({
           message: "Sign in successful",
           redirectUrl: "pages/user-dashboard",
-          user: user,
+          user: user
         }),
         {
           status: 200,
@@ -54,3 +49,27 @@ export async function POST(req) {
     await client.close();
   }
 }
+
+// import { MongoClient } from "mongodb";
+// import { NextResponse } from "next/server";
+// import dbConnect from "../../lib/dbConnect";
+// import clientPromise from "../../lib/dbConnect";
+// import User from "@/app/models/User";
+
+// export async function POST(req: any) {
+//   await dbConnect()
+
+//   try {
+//     const body = await req.json();
+
+//     const user = await User.findOne({email: body.email, password: body.password})
+
+//     if (user) {
+//       return NextResponse.json(user)
+//     } else {
+//       return NextResponse.json({ status: 401 })
+//     }
+//   } catch (err: any) {
+//    return NextResponse.json({error: err.message})
+//   } 
+// }

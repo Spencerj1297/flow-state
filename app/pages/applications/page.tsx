@@ -1,5 +1,5 @@
 "use client";
-import { Application } from "@/app/types";
+import { Application } from "../../types/types"
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";

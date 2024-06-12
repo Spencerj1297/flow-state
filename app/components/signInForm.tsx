@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -9,11 +9,14 @@ export const SignInForm = () => {
     email: "",
     password: "",
   });
+  const [user, setUser] = useState([])
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,6 +40,31 @@ export const SignInForm = () => {
       }
     }
   };
+
+  // const handleSubmit = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/api/sign-in", {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ email: formData.email, password: formData.password }), 
+  //     });
+  
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+  
+  //     const user = await response.json();
+  //     setUser(user);
+  //   } catch (error) {
+  //     console.error('Error signing in:', error);
+  //     // Handle error
+  //   }
+  // }
+  
+
+  console.log(user)
 
   return (
     <div className="flex flex-col gap-4 lg:h-96 w-[400px] bg-lightBlue rounded-xl p-8 lg:p-16">
