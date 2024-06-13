@@ -10,8 +10,7 @@ export async function GET() {
 
     const query = { _id: new ObjectId('6661f1ecf9c7f275d43b82ca') };
     const allData = await collection.findOne(query);
-    console.log("QUOTESSSSSSS", allData)
-
+   
     return new Response(JSON.stringify(allData), {
       status: 200,
       headers: {

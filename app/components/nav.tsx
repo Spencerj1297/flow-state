@@ -23,10 +23,7 @@ export const Nav: FC = ({}) => {
   const homePage = "/";
 
   useEffect(() => {
-    const emailCookie = Cookies.get("email");
-    const nameCookie = Cookies.get("first_name");
-    setEmail(emailCookie);
-    setUserName(nameCookie);
+
   }, []);
 
   const dropDownButtons = () => {
@@ -83,7 +80,11 @@ export const Nav: FC = ({}) => {
   };
 
   useEffect(() => {
-    if (email) {
+    const emailCookie = Cookies.get("email");
+    const nameCookie = Cookies.get("first_name");
+    setEmail(emailCookie);
+    setUserName(nameCookie);
+    if (emailCookie) {
       getQuotes();
     }
   }, []);
@@ -95,6 +96,8 @@ export const Nav: FC = ({}) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
+
+  console.log("random q", randomQuote)
 
   return (
     <>
