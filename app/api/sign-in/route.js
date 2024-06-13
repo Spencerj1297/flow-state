@@ -7,8 +7,6 @@ export async function POST(req) {
   try {
     const body = await req.json();
   
-    console.log("-------- body", body)
-
     await client.connect();
     const database = client.db("flow_state");
     const collection = database.collection("users");

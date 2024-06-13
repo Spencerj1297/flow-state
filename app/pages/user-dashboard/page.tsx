@@ -101,8 +101,7 @@ const UserDashboard = () => {
     getUserApplications();
     getUserTasks();
   }, []);
-
-  console.log(userApplications);
+  
   return (
     <>
       <section className="flex flex-col lg:flex-row gap-4 flex px-4 lg:px-32 pt-32 lg:pt-36 lg:pl-48">
@@ -110,7 +109,7 @@ const UserDashboard = () => {
           <h2 className="w-full flex justify-between border-b py-2">
             Task List for: Future Today Date{" "}
             <Link href="/pages/tasks">
-              <button className="bg-blue text-white p-2 rounded-full text-xs">
+              <button className="bg-blue text-white p-2 rounded-full text-xs hover:opacity-80">
                 Go to Tasks
               </button>
             </Link>
@@ -155,7 +154,7 @@ const UserDashboard = () => {
           <h2 className="w-full flex justify-between border-b py-2">
             Job application{" "}
             <Link href="/pages/applications">
-              <button className="bg-blue text-white p-2 rounded-full text-xs">
+              <button className="bg-blue text-white p-2 rounded-full text-xs hover:opacity-80">
                 Go to applications
               </button>
             </Link>
@@ -180,7 +179,7 @@ const UserDashboard = () => {
         <div className="bg-white w-full min-h-96 text-center p-8 rounded-lg shadow-custom">
           <h2 className="w-full flex justify-between border-b py-2">
             OTHER{" "}
-            <button className="bg-blue text-white p-2 rounded-full text-xs">
+            <button className="bg-blue text-white p-2 rounded-full text-xs hover:opacity-80">
               Go to other
             </button>
           </h2>

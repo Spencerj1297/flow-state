@@ -164,8 +164,6 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
     setFormData({ ...formData, status: selectedStatus, priority: selectedPri });
   }, [selectedStatus]);
 
-  console.log("from", formData);
-
   return (
     <>
       <div className="flex flex-col gap-4 bg-grey rounded-lg h-[600px] w-full xl:w-1/3 shadow-custom p-4 overflow-hidden overflow-y-scroll hide-scrollbar border border-white">

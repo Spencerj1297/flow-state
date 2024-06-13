@@ -35,8 +35,6 @@ const Tasks = () => {
     }
   };
 
-  console.log("tasks", userTasks);
-
   useEffect(() => {
     getUserTasks();
   }, []);

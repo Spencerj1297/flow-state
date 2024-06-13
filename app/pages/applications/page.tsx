@@ -1,5 +1,5 @@
 "use client";
-import { Application } from "../../types/types"
+import { Application } from "../../types/types";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
@@ -14,6 +14,8 @@ const Applications = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [openCreate, setOpenCreate] = useState<boolean>(false);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
+
   const initialFormData = {
     company: "",
     response: "",
@@ -60,6 +62,7 @@ const Applications = () => {
 
   const closeAndResetForm = () => {
     setOpenCreate(false);
+    setOpenEdit(false);
     setFormData(initialFormData);
   };
 
@@ -67,6 +70,46 @@ const Applications = () => {
     setLoading(true);
     try {
       const response = await axios.post("/api/create-application", formData);
+      if (response.status === 200) {
+        getUserApplications();
+        closeAndResetForm();
+        setLoading(false);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+        setLoading(false);
+      } else {
+        console.error("Unknown error has occurred:", error);
+        setLoading(false);
+      }
+    }
+  };
+
+  const editApplication = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.patch("/api/edit-application", formData);
+      if (response.status === 200) {
+        getUserApplications();
+        closeAndResetForm();
+        setLoading(false);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+        setLoading(false);
+      } else {
+        console.error("Unknown error has occurred:", error);
+        setLoading(false);
+      }
+    }
+  };
+
+  const deleteApplication = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post("/api/delete-application", formData);
       if (response.status === 200) {
         getUserApplications();
         closeAndResetForm();
@@ -92,8 +135,83 @@ const Applications = () => {
   );
 
   const createApplicationSection = (app: Application) => {
-    const inputFeilds = [{}];
+    return (
+      <div className="flex flex-col gap-4">
+        <div>
+          <Input
+            name="company"
+            placeHolder="Enter company name"
+            value={formData.company}
+            handleChange={handleInputChange}
+            type="text"
+            label="Title"
+          />
+        </div>
+        <div>
+          <Input
+            name="response"
+            placeHolder="Enter Response"
+            value={formData.response}
+            handleChange={handleInputChange}
+            type="text"
+            label="Response"
+          />
+        </div>
+        <div>
+          <Input
+            name="applied_via"
+            placeHolder="Enter how you applied"
+            value={formData.applied_via}
+            handleChange={handleInputChange}
+            type="text"
+            label="Applied Via"
+          />
+        </div>
+        <div>
+          <Input
+            name="email"
+            placeHolder="Enter application email used"
+            value={formData.email}
+            handleChange={handleInputChange}
+            type="text"
+            label="Application Email"
+          />
+        </div>
+        <div>
+          <Input
+            name="connection"
+            placeHolder="Enter connection to company"
+            value={formData.connection}
+            handleChange={handleInputChange}
+            type="text"
+            label="Company Connection"
+          />
+        </div>
+        <div>
+          <Input
+            name="notes"
+            placeHolder="Notes"
+            value={formData.notes}
+            handleChange={handleInputChange}
+            type="text"
+            label="Notes"
+          />
+        </div>
+        <div className="w-full flex justify-between items-center">
+          <div className="w-1/2">
+            {/* <DropDown
+              label="Priority"
+              options={priorityLevel}
+              selectedOption={selectedPri}
+              setSelectedOption={setSelectedPri}
+            /> */}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
+  const editApplicationSection = (app: Application) => {
     return (
       <div className="flex flex-col gap-4">
         <div>
@@ -196,7 +314,7 @@ const Applications = () => {
                   type="button"
                   className="bg-blue rounded-lg flex justify-center items-center text-white h-12 w-12"
                 >
-                  {gridLayout ? (<IconLayoutGrid />):(<IconList />)}
+                  {gridLayout ? <IconLayoutGrid /> : <IconList />}
                 </button>
               </div>
               <div>
@@ -233,8 +351,12 @@ const Applications = () => {
             {gridLayout ? (
               <div className="grid sm:grid-cols-3 lg:grid-cols-4 gap-4 p-4 lg:p-8">
                 {filterList.map((app, ind) => (
-                  <div
+                  <button
                     key={ind}
+                    onClick={() => {
+                      setFormData(app);
+                      setOpenEdit(true);
+                    }}
                     className="flex flex-col gap-2 bg-white hover:bg-seafoam hover:opacity-50 rounded-lg p-8 shadow-outline hover:cursor-pointer"
                   >
                     <div className="text-blue">
@@ -244,16 +366,23 @@ const Applications = () => {
                       <p className="text-sm">Response: {app.response}</p>
                     </div>
                     <div className="text-sm">
-                      <p>Company Connection: <span className="font-bold">{app.connection}</span></p>
+                      <p>
+                        Company Connection:{" "}
+                        <span className="font-bold">{app.connection}</span>
+                      </p>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             ) : (
               <div className="flex flex-col gap-4 max-h-screen overflow-hidden overflow-y-scroll hide-scrollbar p-4 lg:p-8">
                 {filterList.map((app, ind) => (
-                  <div
+                  <button
                     key={ind}
+                    onClick={() => {
+                      setFormData(app);
+                      setOpenEdit(true);
+                    }}
                     className="flex justify-between bg-white hover:bg-seafoam hover:opacity-50 rounded-lg p-8 shadow-outline hover:cursor-pointer"
                   >
                     <div className="lg:w-1/4">
@@ -268,7 +397,7 @@ const Applications = () => {
                     <div className="hidden lg:flex lg:w-1/4">
                       <p>{app.connection}</p>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             )}
@@ -282,6 +411,18 @@ const Applications = () => {
           closeModal={closeAndResetForm}
           customSection={createApplicationSection(formData)}
           callBack={createApplication}
+          loading={loading}
+        />
+      )}
+      {openEdit && (
+        <Modal
+          modalTitle="Edit Application"
+          closeModal={closeAndResetForm}
+          customSection={editApplicationSection(formData)}
+          callBack={editApplication}
+          secondaryCallBack={deleteApplication}
+          loading={loading}
+          isEdit
         />
       )}
     </>

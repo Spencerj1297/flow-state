@@ -6,14 +6,9 @@ export async function POST(req) {
 
   try {
     const body = await req.json();
-
-    console.log("body", body);
-
     await client.connect();
-
     const cookies = parse(req.headers.get("cookie") || "");
     const userCookie = cookies.user;
-    console.log("cookie", userCookie);
 
     const database = client.db("flow_state");
     const collection = database.collection("applications");

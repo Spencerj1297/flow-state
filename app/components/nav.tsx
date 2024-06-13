@@ -8,47 +8,77 @@ import {
   IconListCheck,
   IconMenuDeep,
   IconSettings,
+  IconBubbleText,
+  IconDoorExit,
 } from "@tabler/icons-react";
 import axios from "axios";
 import { signOut } from "../lib/utils";
 import { MobileNavMenu } from "./mobileNavMenu";
+import { Modal } from "./ui/modal";
+import { Quote } from "../types/types";
 
 export const Nav: FC = ({}) => {
   const [email, setEmail] = useState<string | undefined>(undefined);
   const [userName, setUserName] = useState<string | undefined>(undefined);
+
   const [randomQuote, setRandomQuote] = useState<string>("");
   const [dropDown, setDropDown] = useState<boolean>(false);
+  const [openSettings, setOpenSettings] = useState<boolean>(false);
+  const [openQuotes, setOpenQuotes] = useState<boolean>(false);
   const [mobileNav, setMobileNav] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const initialQuote = { quote: "" };
+  const [newQuote, setNewQuote] = useState<Quote>(initialQuote);
+
   const homePage = "/";
 
-  useEffect(() => {
+  const closeAndReset = () => {
+    setOpenSettings(false);
+    setOpenQuotes(false);
+  };
 
-  }, []);
+  const handleSettings = () => {
+    setOpenSettings(true);
+  };
+
+  const handleQuotes = () => {
+    setOpenQuotes(true);
+  };
 
   const dropDownButtons = () => {
     const buttons = [
       {
         title: "Sign out",
+        icon: <IconDoorExit />,
         callback: signOut,
       },
       {
         title: "Settings",
-        callback: signOut,
+        icon: <IconSettings />,
+        callback: handleSettings,
       },
       {
         title: "Quotes",
-        callback: signOut,
+        icon: <IconBubbleText />,
+        callback: handleQuotes,
       },
     ];
 
     return buttons.map((button, ind) => (
-      <div key={ind}>
-        <button onClick={button.callback} className="text-sm text-blue">
-          {button.title}
-        </button>
-        <div className="w-full border"></div>
-      </div>
+      <>
+        <div key={ind}>
+          <button
+            onClick={button.callback}
+            className="flex gap-2 text-sm text-blue hover:opacity-80"
+          >
+            {button.icon}
+            {button.title}
+          </button>
+        </div>
+        <div className="w-full h-[1px] w-full bg-blue"></div>
+      </>
     ));
   };
 
@@ -79,6 +109,47 @@ export const Nav: FC = ({}) => {
     }
   };
 
+  const createQuote = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post("/api/create-quote", newQuote);
+      if (response.status === 200) {
+        console.log("Succesfully added new quote");
+        setOpenQuotes(false);
+        setLoading(false);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+      } else {
+        console.error("Unknown error has occurred:", error);
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    setNewQuote((prevData) => ({
+      ...prevData,
+      quote: value,
+    }));
+  };
+
+  const quoteSection = (quote: Quote) => {
+    return (
+      <div className="w-full rounded-lg flex justify-center items-center p-4">
+        <textarea
+          placeholder="Enter a new quote"
+          onChange={handleChange}
+          className="min-h-[300px] w-full h-full p-4 shadow-outline border rounded-lg"
+        >
+          {newQuote.quote}
+        </textarea>
+      </div>
+    );
+  };
+
   useEffect(() => {
     const emailCookie = Cookies.get("email");
     const nameCookie = Cookies.get("first_name");
@@ -96,8 +167,6 @@ export const Nav: FC = ({}) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
-
-  console.log("random q", randomQuote)
 
   return (
     <>
@@ -138,7 +207,7 @@ export const Nav: FC = ({}) => {
             <div className="flex items-end justify-center h-1/3">
               <div className="flex justify-center items-center">
                 <button
-                  onClick={() => setDropDown(!dropDown)}
+                  onClick={() => setOpenSettings(true)}
                   className="h-8 w-8 text-white hover:text-seafoam flex justify-center items-center rounded-full text-sm"
                 >
                   <IconSettings />
@@ -164,7 +233,9 @@ export const Nav: FC = ({}) => {
                     onClick={() => setDropDown(!dropDown)}
                     className="hidden lg:block h-8 w-8 bg-blue text-white flex justify-center items-center rounded-full text-sm"
                   >
-                    {userName ? userName?.slice(0, 1) : email.slice(0,1).toUpperCase()}
+                    {userName
+                      ? userName?.slice(0, 1)
+                      : email.slice(0, 1).toUpperCase()}
                   </button>
                 </div>
                 <div className="flex justify-center items-center">
@@ -180,7 +251,7 @@ export const Nav: FC = ({}) => {
             {dropDown && (
               <div
                 ref={dropdownRef}
-                className="flex flex-col justify-center items-end fixed top-20 right-16 bg-white text-white shadow-outline rounded-lg py-4 px-8 border gap-2"
+                className="flex flex-col justify-center items-start fixed top-20 right-16 bg-white shadow-outline rounded-lg py-4 px-8 gap-2"
               >
                 {dropDownButtons()}
               </div>
@@ -201,13 +272,22 @@ export const Nav: FC = ({}) => {
                 <button>About</button>
               </Link>
               <Link href="/pages/sign-up">
-                <button >Sign up</button>
+                <button>Sign up</button>
               </Link>
             </div>
           </div>
         </nav>
       )}
       {mobileNav && <MobileNavMenu setOpen={setMobileNav} />}
+      {openQuotes && (
+        <Modal
+          modalTitle="Add a Quote"
+          closeModal={closeAndReset}
+          customSection={quoteSection(newQuote)}
+          callBack={createQuote}
+          loading={loading}
+        />
+      )}
     </>
   );
 };

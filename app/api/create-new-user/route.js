@@ -6,12 +6,7 @@ export async function POST(req) {
 
   try {
     const body = await req.json();
-    console.log("_______________________________________________");
-    console.log("The body", body);
-    console.log("_______________________________________________");
-
     const hashedPassword = await bcrypt.hash(body.password, 10);
-
     await client.connect();
     const database = client.db("flow_state");
     const collection = database.collection("users");

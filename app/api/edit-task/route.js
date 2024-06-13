@@ -6,8 +6,6 @@ export async function PATCH(req) {
   try {
     const body = await req.json();
 
-    console.log("bodyyyy", body);
-
     await client.connect();
 
     const database = client.db("flow_state");

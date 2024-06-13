@@ -36,7 +36,7 @@ export const CompleteTasks: FC<Props> = ({ userTasks, getTask }) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value, status: selectedStatus, priority: selectedPri });
   };
-  console.log(formData);
+
   const editTaskSection = (task: Task) => {
     return (
       <div className="flex flex-col gap-4">
@@ -126,7 +126,6 @@ export const CompleteTasks: FC<Props> = ({ userTasks, getTask }) => {
     if (!arrDeletedTask.some((t) => t.title === task.title)) {
       arrDeletedTask.push(task);
     }
-    console.log("arr", arrDeletedTask);
   };
 
   useEffect(() => {

@@ -36,6 +36,7 @@ export const CurrentTasks: FC<Props> = ({ userTasks, getTask }) => {
       priority: selectedPri,
     });
   };
+  
   const [selectedStatus, setSelectedStatus] = useState("in progress");
   const dropDownOptions = ["new", "in progress", "complete"];
 
@@ -105,8 +106,6 @@ export const CurrentTasks: FC<Props> = ({ userTasks, getTask }) => {
   useEffect(() => {
     setFormData({ ...formData, status: selectedStatus, priority: selectedPri });
   }, [selectedStatus, selectedPri]);
-
-  console.log("f", formData);
 
   return (
     <>

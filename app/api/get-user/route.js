@@ -9,8 +9,6 @@ export async function GET() {
     const collection = database.collection("users");
     const allData = await collection.find({}).toArray();
 
-    console.log(allData);
-
     return new Response(JSON.stringify(allData), {
       status: 200,
       headers: {

@@ -29,7 +29,7 @@ export const SignInForm = () => {
 
     try {
       const response = await axios.post("/api/sign-in", formData);
-      console.log("----- Sign in successful -----:", response.data);
+      console.log("----- Sign in successful -----:");
       if (response.status === 200) {
         Cookies.set("user", response.data.user._id);
         Cookies.set("email", response.data.user.email);
@@ -69,9 +69,6 @@ export const SignInForm = () => {
   //     // Handle error
   //   }
   // }
-
-  console.log(user)
-  console.log(formData);
 
   return (
     <div className="flex flex-col gap-4 lg:h-96 w-[400px] bg-lightBlue rounded-xl p-8 lg:p-16">

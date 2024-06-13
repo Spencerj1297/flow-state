@@ -38,7 +38,7 @@ const SignIn = () => {
       } else {
         try {
           const response = await axios.post("/api/create-new-user", formData);
-          console.log("Signup successful:", response.data);
+          console.log("Signup successful:");
         } catch (error: unknown) {
           if (error instanceof Error) {
             console.error("Error:", error.message);
@@ -65,9 +65,7 @@ const SignIn = () => {
       </p>
     ));
   };
-
-  console.log("dat data", formData);
-
+  
   return (
     <section className="min-h-screen flex justify-center items-center bg-seafoam lg:py-24 px-4 lg:px-44">
       <div className="hidden lg:flex lg:w-2/3 lg:text-7xl xl:text-8xl text-blue flex-col justify-start gap-16 px-16 font-bold">
