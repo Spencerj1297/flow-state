@@ -7,6 +7,7 @@ import axios from "axios";
 import { IconSquare, IconSquareCheck } from "@tabler/icons-react";
 import { Loader } from "@/app/components/ui/loader";
 import { getPriority } from "@/app/lib/utils";
+import { BarGraph } from "@/app/components/barGraph";
 
 const UserDashboard = () => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);
@@ -101,13 +102,13 @@ const UserDashboard = () => {
     getUserApplications();
     getUserTasks();
   }, []);
-  
+
   return (
     <>
       <section className="flex flex-col lg:flex-row gap-4 flex px-4 lg:px-32 pt-32 lg:pt-36 lg:pl-48">
         <div className="bg-white w-full lg:w-1/2 h-96 text-center p-8 rounded-lg shadow-custom overflow-hidden overflow-y-scroll hide-scrollbar">
           <h2 className="w-full flex justify-between border-b py-2">
-            Task List for: Future Today Date{" "}
+            Tasks
             <Link href="/pages/tasks">
               <button className="bg-blue text-white p-2 rounded-full text-xs hover:opacity-80">
                 Go to Tasks
@@ -152,7 +153,7 @@ const UserDashboard = () => {
         </div>
         <div className="bg-white w-full lg:w-1/2 text-center p-8 rounded-lg shadow-custom">
           <h2 className="w-full flex justify-between border-b py-2">
-            Job application{" "}
+            Job applications
             <Link href="/pages/applications">
               <button className="bg-blue text-white p-2 rounded-full text-xs hover:opacity-80">
                 Go to applications
@@ -175,14 +176,20 @@ const UserDashboard = () => {
           </div>
         </div>
       </section>
-      <section className="flex flex-col lg:flex-row gap-4 flex px-4 lg:px-32 pt-4 lg:pl-48">
+      <section className="flex flex-col lg:flex-row gap-4 flex px-4 lg:px-32 pt-4 lg:pl-48 mb-16">
         <div className="bg-white w-full min-h-96 text-center p-8 rounded-lg shadow-custom">
           <h2 className="w-full flex justify-between border-b py-2">
-            OTHER{" "}
-            <button className="bg-blue text-white p-2 rounded-full text-xs hover:opacity-80">
-              Go to other
-            </button>
+            Analytics
+            <Link href="/pages/data">
+              <button 
+              className="bg-blue text-white p-2 rounded-full text-xs hover:opacity-80">
+                Go to data
+              </button>
+            </Link>
           </h2>
+          <div className="flex justify-center items-center p-8 max-h-[500px]">
+            <BarGraph />
+          </div>
         </div>
       </section>
     </>

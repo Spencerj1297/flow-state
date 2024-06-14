@@ -3,7 +3,12 @@ import { Application } from "../../types/types";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { IconPlus, IconLayoutGrid, IconList } from "@tabler/icons-react";
+import {
+  IconPlus,
+  IconLayoutGrid,
+  IconList,
+  IconFileDescription,
+} from "@tabler/icons-react";
 import { Modal } from "@/app/components/ui/modal";
 import { Loader } from "@/app/components/ui/loader";
 import { Input } from "@/app/components/ui/input";
@@ -301,6 +306,10 @@ const Applications = () => {
           </div>
         ) : (
           <>
+            <h1 className="flex gap-2 text-8xl text-blue mb-8">
+              Applications <IconFileDescription size={48} />
+            </h1>
+
             <div className="flex flex-col gap-8">
               <div className="w-full flex justify-between">
                 <div className="w-3/6">

@@ -8,6 +8,7 @@ import { CompleteTasks } from "@/app/components/taskPage/completeTasks";
 
 import { Loader } from "@/app/components/ui/loader";
 import { Task } from "../../types/types";
+import { IconListCheck } from "@tabler/icons-react";
 
 const Tasks = () => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);
@@ -40,14 +41,19 @@ const Tasks = () => {
   }, []);
 
   return (
-    <section className="min-h-screen flex flex-col xl:flex-row justify-center items-center gap-4 p-4 pt-32 lg:p-24 lg:pt-32 lg:pl-48">
+    <section className="min-h-screen flex flex-col justify-center items-center gap-4 p-4 pt-32 lg:p-24 lg:pt-32 lg:pl-48">
       {loading ? (
         <Loader />
       ) : (
         <>
-          <NewTask userTasks={userTasks} getTask={getUserTasks} />
-          <CurrentTasks userTasks={userTasks} getTask={getUserTasks} />
-          <CompleteTasks userTasks={userTasks} getTask={getUserTasks} />
+          <h1 className="flex gap-2 text-8xl text-blue mb-8 w-full">
+            Tasks <IconListCheck size={48} />
+          </h1>
+          <div className="flex flex-col xl:flex-row w-full gap-4">
+            <NewTask userTasks={userTasks} getTask={getUserTasks} />
+            <CurrentTasks userTasks={userTasks} getTask={getUserTasks} />
+            <CompleteTasks userTasks={userTasks} getTask={getUserTasks} />
+          </div>
         </>
       )}
     </section>

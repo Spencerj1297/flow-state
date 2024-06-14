@@ -25,7 +25,7 @@ const config: Config = {
         grey: "#d8d9d5",
         seafoam: "#9fe2bf",
         blue: "#519ece",
-        red: "#FF4433"
+        red: "#F8481c",
       },
     },
   },

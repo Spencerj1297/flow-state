@@ -10,6 +10,7 @@ import {
   IconSettings,
   IconBubbleText,
   IconDoorExit,
+  IconReportAnalytics,
 } from "@tabler/icons-react";
 import axios from "axios";
 import { signOut } from "../lib/utils";
@@ -199,6 +200,13 @@ export const Nav: FC = ({}) => {
                 <Link href="/pages/applications">
                   <div className="bg-blue rounded-md p-1">
                     <IconFileDescription />
+                  </div>
+                </Link>
+              </div>
+              <div className="flex justify-center items-center text-white hover:text-seafoam">
+                <Link href="/pages/data">
+                  <div className="bg-blue rounded-md p-1">
+                    <IconReportAnalytics />
                   </div>
                 </Link>
               </div>

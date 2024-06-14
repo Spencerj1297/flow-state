@@ -84,7 +84,6 @@ const SignIn = () => {
       >
         <div>
           <Input
-            label="Email"
             name="email"
             placeHolder="Email"
             value={formData.email}
@@ -94,7 +93,6 @@ const SignIn = () => {
         </div>
         <div>
           <Input
-            label="Password"
             name="password"
             placeHolder="Password"
             value={formData.password}
@@ -104,14 +102,13 @@ const SignIn = () => {
         </div>
         <div>
           <Input
-            label="Confirm Password"
             name="confirm"
-            placeHolder="Password"
+            placeHolder="Confirm Password"
             value={formData.confirm}
             handleChange={handleInputChange}
             type="password"
           />
-          <p className="text-sm font-bold">Password must:</p>
+          <p className="text-sm font-bold mt-4">Password must:</p>
           <div className="px-4">{getCriteria()}</div>
         </div>
 

@@ -1,8 +1,11 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "./ui/input";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Image from "next/image";
+import logo from "../assets/logo.png";
+import Link from "next/link";
 
 export const SignInForm = () => {
   const [formData, setFormData] = useState({
@@ -71,8 +74,8 @@ export const SignInForm = () => {
   // }
 
   return (
-    <div className="flex flex-col gap-4 lg:h-96 w-[400px] bg-lightBlue rounded-xl p-8 lg:p-16">
-      <h2 className="text-xl">Sign in to Flow State</h2>
+    <div className="flex flex-col justify-center items-center gap-4 h-full w-[400px] bg-lightBlue">
+      <h2 className="text-2xl text-blue">Sign in</h2>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <Input
           name="email"
@@ -101,13 +104,20 @@ export const SignInForm = () => {
             className="opacity-0 h-0 w-0 overflow-hidden"
           />
         </div>
-
         <button
           className="bg-blue py-2 px-4 text-md text-white rounded-xl hover:bg-opacity-80 shadow-custom"
           type="submit"
         >
           Sign In
         </button>
+        <p className="text-center text-sm">
+          or
+        </p>
+        <Link href="/pages/sign-up">
+          <button className="w-full bg-seafoam py-2 px-4 text-md text-blue rounded-xl hover:bg-opacity-80 shadow-custom">
+            Create New Account
+          </button>
+        </Link>
       </form>
     </div>
   );
