@@ -3,20 +3,18 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { FC, useEffect, useState, useRef, useCallback } from "react";
 import {
-  IconFileDescription,
-  IconLayoutDashboard,
-  IconListCheck,
   IconMenuDeep,
   IconSettings,
   IconBubbleText,
   IconDoorExit,
-  IconReportAnalytics,
 } from "@tabler/icons-react";
+import { navIcons } from "../lib/data";
 import axios from "axios";
 import { signOut } from "../lib/utils";
 import { MobileNavMenu } from "./mobileNavMenu";
 import { Modal } from "./ui/modal";
 import { Quote } from "../types/types";
+import { Tooltip } from "./ui/tooltip";
 
 export const Nav: FC = ({}) => {
   const [email, setEmail] = useState<string | undefined>(undefined);
@@ -169,6 +167,21 @@ export const Nav: FC = ({}) => {
     };
   }, [handleClickOutside]);
 
+  const getNavIcons = () => {
+    return navIcons.map((icon, ind) => (
+      <div
+        key={ind}
+        className="flex justify-center items-center text-white hover:text-seafoam"
+      >
+        <Link href={icon.link}>
+          <Tooltip text={icon.title}>
+            <div className="bg-blue rounded-md p-1">{icon.Icon}</div>
+          </Tooltip>
+        </Link>
+      </div>
+    ));
+  };
+
   return (
     <>
       {email && window.location.pathname !== homePage ? (
@@ -181,44 +194,17 @@ export const Nav: FC = ({}) => {
             </div>
 
             <div className="flex flex-col justify-center items-center h-1/3 gap-4">
-              <div className="flex justify-center items-center text-white hover:text-seafoam">
-                <Link href="/pages/user-dashboard">
-                  <div className="bg-blue rounded-md p-1">
-                    <IconLayoutDashboard />
-                  </div>
-                </Link>
-              </div>
-
-              <div className="flex justify-center items-center text-white hover:text-seafoam">
-                <Link href="/pages/tasks">
-                  <div className="bg-blue rounded-md p-1">
-                    <IconListCheck />
-                  </div>
-                </Link>
-              </div>
-              <div className="flex justify-center items-center text-white hover:text-seafoam">
-                <Link href="/pages/applications">
-                  <div className="bg-blue rounded-md p-1">
-                    <IconFileDescription />
-                  </div>
-                </Link>
-              </div>
-              <div className="flex justify-center items-center text-white hover:text-seafoam">
-                <Link href="/pages/data">
-                  <div className="bg-blue rounded-md p-1">
-                    <IconReportAnalytics />
-                  </div>
-                </Link>
-              </div>
+              {getNavIcons()}
             </div>
-
             <div className="flex items-end justify-center h-1/3">
               <div className="flex justify-center items-center">
                 <button
                   onClick={() => setOpenSettings(true)}
                   className="h-8 w-8 text-white hover:text-seafoam flex justify-center items-center rounded-full text-sm"
                 >
-                  <IconSettings />
+                  <Tooltip text="Settings">
+                    <IconSettings />
+                  </Tooltip>
                 </button>
               </div>
             </div>

@@ -30,7 +30,6 @@ export const getQuotes = async () => {
   }
 };
 
-
 export const signOut = () => {
   Cookies.remove("user");
   Cookies.remove("email");

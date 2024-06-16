@@ -46,7 +46,7 @@ const Tasks = () => {
         <Loader />
       ) : (
         <>
-          <h1 className="flex gap-2 text-8xl text-blue mb-8 w-full">
+          <h1 className="flex gap-2 text-4xl lg:text-8xl text-blue mb-8 w-full">
             Tasks <IconListCheck size={48} />
           </h1>
           <div className="flex flex-col xl:flex-row w-full gap-4">

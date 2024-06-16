@@ -23,18 +23,18 @@ ChartJS.register(
 
 export const LineChart = () => {
   const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
+    "Jan",
+    "Fe",
+    "Mar",
+    "Apr",
     "May",
     "June",
     "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   const options = {
@@ -57,7 +57,7 @@ export const LineChart = () => {
     datasets: [
       {
         label: "Productivity (%)",
-        data: [60, 20, 90, 20, 100, 40, 60, 10, 80, 90, 90, 95],
+        data: [60, 20, 90, 20, 95, 40, 60, 10, 80, 90, 90, 95],
         borderColor: "rgb(81, 158, 206)",
         backgroundColor: "rgb(81, 158, 206, 0.5)",
       },

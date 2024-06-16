@@ -8,12 +8,14 @@ import { IconSquare, IconSquareCheck } from "@tabler/icons-react";
 import { Loader } from "@/app/components/ui/loader";
 import { getPriority } from "@/app/lib/utils";
 import { BarGraph } from "@/app/components/barGraph";
+import { PieChart } from "@/app/components/pieChart";
 
 const UserDashboard = () => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);
   const [userApplications, setUserApplications] = useState<Application[]>([]);
   const [applicationCount, setAppicationCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+  const inProgressTasks = userTasks.filter((task) => task.status === 'in progress')
 
   const initialFormData = {
     _id: "",
@@ -121,8 +123,8 @@ const UserDashboard = () => {
                 <Loader />
               </div>
             ) : (
-              userTasks
-                .filter((tasks) => tasks.status === "in progress")
+              inProgressTasks.length > 0 ? (
+                inProgressTasks
                 .map((task, ind) => (
                   <div
                     key={ind}
@@ -148,6 +150,9 @@ const UserDashboard = () => {
                     </div>
                   </div>
                 ))
+              ):(
+                <p className="text-grey py-16"> No Task in progress</p>
+              )
             )}
           </div>
         </div>
@@ -187,7 +192,10 @@ const UserDashboard = () => {
               </button>
             </Link>
           </h2>
-          <div className="flex justify-center items-center p-8 max-h-[500px]">
+          <div className="lg:hidden flex justify-center items-center p-8 max-h-[500px]">
+            <PieChart />
+          </div>
+          <div className="hidden lg:flex justify-center items-center p-8 max-h-[500px]">
             <BarGraph />
           </div>
         </div>

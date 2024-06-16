@@ -306,7 +306,7 @@ const Applications = () => {
           </div>
         ) : (
           <>
-            <h1 className="flex gap-2 text-8xl text-blue mb-8">
+            <h1 className="flex gap-2 text-4xl lg:text-8xl text-blue mb-8">
               Applications <IconFileDescription size={48} />
             </h1>
 
