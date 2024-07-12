@@ -7,6 +7,7 @@ export function middleware(req){
    const emailCookie = cookieStore.get('email')
     
     if(!emailCookie){
+        console.warn(`No email cookie found for request to ${req.url}`);
         return NextResponse.redirect(new URL('/', req.url))
     }
 
@@ -14,6 +15,5 @@ export function middleware(req){
 }
 
 export const config = {
-    //matcher can be an array of all routes requiring a user
     matcher: ['/pages/user-dashboard', '/pages/tasks']
 }       

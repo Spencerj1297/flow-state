@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { SignInForm } from "../signInForm";
-import logo from "../../assets/logo.png";
+
 
 export const Intro = () => {
+
   return (
     <section className="min-h-96 flex flex-col xl:flex-row w-full rounded-xl bg-blue shadow-custom ">
       <div className="xl:w-1/2 text-aqua flex justify-center items-center text-center lg:text-left py-8 lg:p-16 z-10">

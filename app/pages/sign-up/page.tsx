@@ -1,9 +1,8 @@
 "use client";
-import { ChangeEvent, useCallback, useState } from "react";
-import axios, { AxiosError } from "axios";
+import { useState } from "react";
+import axios from "axios";
 import { Input } from "@/app/components/ui/input";
-import { IconCircleCheck } from "@tabler/icons-react";
-import { get } from "http";
+
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -77,7 +76,6 @@ const SignIn = () => {
           className="cursor-pointer h-2 w-2"
         ></button>
       </div>
-
       <form
         onSubmit={handleSubmit}
         className="lg:w-1/3 flex flex-col lg:px-8 gap-8"
