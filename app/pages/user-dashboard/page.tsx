@@ -7,8 +7,8 @@ import axios from "axios";
 import { IconSquare, IconSquareCheck } from "@tabler/icons-react";
 import { Loader } from "@/app/components/ui/loader";
 import { getPriority } from "@/app/lib/utils";
-import { BarGraph } from "@/app/components/barGraph";
-import { PieChart } from "@/app/components/pieChart";
+import { BarGraph } from "@/app/components/ui/barGraph";
+import { PieChart } from "@/app/components/ui/pieChart";
 
 const UserDashboard = () => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);

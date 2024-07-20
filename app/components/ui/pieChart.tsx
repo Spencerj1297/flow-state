@@ -3,7 +3,7 @@ import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const PieChart = () => {
+export function PieChart(){
     const options = {
         responsive: true,
         plugins: {

@@ -8,9 +8,9 @@ interface Props {
   closeModal: () => void;
   callBack?: any;
   secondaryCallBack?: any;
-  customSection?: any;
   isEdit?: boolean;
   loading?: boolean;
+  children: React.ReactNode;
 }
 
 export const Modal: FC<Props> = ({
@@ -18,14 +18,10 @@ export const Modal: FC<Props> = ({
   closeModal,
   callBack,
   secondaryCallBack,
-  customSection,
   isEdit,
   loading,
+  children
 }) => {
-  // const getPage = () => {
-  //   const regex = new RegExp("task", "i");
-  //   return regex.test(modalTitle);
-  // };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-10 bg-black bg-opacity-30">
@@ -40,7 +36,7 @@ export const Modal: FC<Props> = ({
             <IconX />
           </button>
         </h2>
-        {customSection}
+        {children}
         {isEdit ? (
           <div className="flex justify-center items-center gap-4">
             {loading ? (

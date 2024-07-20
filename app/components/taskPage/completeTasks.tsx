@@ -1,7 +1,7 @@
 "use client";
 import { FC, useEffect, useState } from "react";
 import { Modal } from "../ui/modal";
-import { Task } from "../../types/types"
+import { Task } from "../../types/types";
 import { Input } from "../ui/input";
 import { DropDown } from "../ui/DropDown";
 import axios from "axios";
@@ -34,48 +34,12 @@ export const CompleteTasks: FC<Props> = ({ userTasks, getTask }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value, status: selectedStatus, priority: selectedPri });
-  };
-
-  const editTaskSection = (task: Task) => {
-    return (
-      <div className="flex flex-col gap-4">
-        <Input
-          name="title"
-          placeHolder="Enter task title"
-          value={formData.title}
-          handleChange={handleInputChange}
-          type="text"
-          label="Task Title"
-        />
-        <Input
-          name="description"
-          placeHolder="Enter task description"
-          value={formData.description}
-          handleChange={handleInputChange}
-          type="text"
-          label="Task"
-        />
-        <div className="w-full flex justify-between items-center">
-          <div className="w-1/2">
-            <DropDown
-              label="Priority"
-              options={priorityLevel}
-              selectedOption={selectedPri}
-              setSelectedOption={setSelectedPri}
-            />
-          </div>
-          <div className="w-1/2 text-left">
-            <DropDown
-              label="Status"
-              options={dropDownOptions}
-              selectedOption={selectedStatus}
-              setSelectedOption={setSelectedStatus}
-            />
-          </div>
-        </div>
-      </div>
-    );
+    setFormData({
+      ...formData,
+      [name]: value,
+      status: selectedStatus,
+      priority: selectedPri,
+    });
   };
 
   const editTask = async () => {
@@ -192,11 +156,47 @@ export const CompleteTasks: FC<Props> = ({ userTasks, getTask }) => {
         <Modal
           modalTitle="Edit Task"
           closeModal={closeAndResetForm}
-          customSection={editTaskSection(formData)}
           callBack={editTask}
           secondaryCallBack={deleteTask}
           isEdit
-        />
+        >
+          <div className="flex flex-col gap-4">
+            <Input
+              name="title"
+              placeHolder="Enter task title"
+              value={formData.title}
+              handleChange={handleInputChange}
+              type="text"
+              label="Task Title"
+            />
+            <Input
+              name="description"
+              placeHolder="Enter task description"
+              value={formData.description}
+              handleChange={handleInputChange}
+              type="text"
+              label="Task"
+            />
+            <div className="w-full flex justify-between items-center">
+              <div className="w-1/2">
+                <DropDown
+                  label="Priority"
+                  options={priorityLevel}
+                  selectedOption={selectedPri}
+                  setSelectedOption={setSelectedPri}
+                />
+              </div>
+              <div className="w-1/2 text-left">
+                <DropDown
+                  label="Status"
+                  options={dropDownOptions}
+                  selectedOption={selectedStatus}
+                  setSelectedOption={setSelectedStatus}
+                />
+              </div>
+            </div>
+          </div>
+        </Modal>
       )}
     </>
   );

@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
   const [addTaskModal, setAddTaskModal] = useState<boolean>(false);
   const [taskModalOpen, setTaskModalOpen] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatue] = useState("new");
@@ -38,86 +38,6 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
       status: selectedStatus,
       priority: selectedPri,
     });
-  };
-
-  const createTaskSection = (task: Task) => {
-    return (
-      <div className="flex flex-col gap-4">
-        <div>
-          <Input
-            name="title"
-            placeHolder="Enter task title"
-            value={formData.title}
-            handleChange={handleInputChange}
-            type="text"
-            label="Task Title"
-          />
-        </div>
-        <div>
-          <Input
-            name="description"
-            placeHolder="Enter task description"
-            value={formData.description}
-            handleChange={handleInputChange}
-            type="text"
-            label="Task"
-          />
-        </div>
-        <div className="w-full flex justify-between items-center">
-          <div className="w-1/2">
-            <DropDown
-              label="Priority"
-              options={priorityLevel}
-              selectedOption={selectedPri}
-              setSelectedOption={setSelectedPri}
-            />
-          </div>
-          <div className="w-1/2 text-left">
-            <DropDown
-              label="Status"
-              options={dropDownOptions}
-              selectedOption={selectedStatus}
-              setSelectedOption={setSelectedStatue}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const editTaskSection = (task: Task) => {
-    return (
-      <div className="flex flex-col gap-4">
-        <div>
-          <Input
-            name="title"
-            placeHolder="Enter task title"
-            value={formData.title}
-            handleChange={handleInputChange}
-            type="text"
-            label="Task Title"
-          />
-        </div>
-        <div>
-          <Input
-            name="description"
-            placeHolder="Enter task description"
-            value={formData.description}
-            handleChange={handleInputChange}
-            type="text"
-            label="Task"
-          />
-        </div>
-        <div>
-          <DropDown
-            label="Status"
-            options={dropDownOptions}
-            selectedOption={selectedStatus}
-            setSelectedOption={setSelectedStatue}
-          />
-        </div>
-      </div>
-    );
   };
 
   const editTask = async () => {
@@ -144,7 +64,7 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
   };
 
   const createTask = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await axios.post("/api/create-task", formData);
       if (response.status === 200) {
@@ -200,19 +120,89 @@ export const NewTask: FC<Props> = ({ userTasks, getTask }) => {
         <Modal
           modalTitle="Edit Task"
           closeModal={closeAndResetForm}
-          customSection={editTaskSection(formData)}
           callBack={editTask}
           isEdit
-        />
+        >
+          <div className="flex flex-col gap-4">
+            <div>
+              <Input
+                name="title"
+                placeHolder="Enter task title"
+                value={formData.title}
+                handleChange={handleInputChange}
+                type="text"
+                label="Task Title"
+              />
+            </div>
+            <div>
+              <Input
+                name="description"
+                placeHolder="Enter task description"
+                value={formData.description}
+                handleChange={handleInputChange}
+                type="text"
+                label="Task"
+              />
+            </div>
+            <div>
+              <DropDown
+                label="Status"
+                options={dropDownOptions}
+                selectedOption={selectedStatus}
+                setSelectedOption={setSelectedStatue}
+              />
+            </div>
+          </div>
+        </Modal>
       )}
       {addTaskModal && (
         <Modal
           modalTitle="Create new Task"
           closeModal={closeAndResetForm}
-          customSection={createTaskSection(formData)}
           loading={loading}
           callBack={createTask}
-        />
+        >
+          <div className="flex flex-col gap-4">
+            <div>
+              <Input
+                name="title"
+                placeHolder="Enter task title"
+                value={formData.title}
+                handleChange={handleInputChange}
+                type="text"
+                label="Task Title"
+              />
+            </div>
+            <div>
+              <Input
+                name="description"
+                placeHolder="Enter task description"
+                value={formData.description}
+                handleChange={handleInputChange}
+                type="text"
+                label="Task"
+              />
+            </div>
+            <div className="w-full flex justify-between items-center">
+              <div className="w-1/2">
+                <DropDown
+                  label="Priority"
+                  options={priorityLevel}
+                  selectedOption={selectedPri}
+                  setSelectedOption={setSelectedPri}
+                />
+              </div>
+              <div className="w-1/2 text-left">
+                <DropDown
+                  label="Status"
+                  options={dropDownOptions}
+                  selectedOption={selectedStatus}
+                  setSelectedOption={setSelectedStatue}
+                />
+              </div>
+            </div>
+          </div>
+        </Modal>
       )}
     </>
   );

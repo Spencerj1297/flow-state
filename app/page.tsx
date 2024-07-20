@@ -6,6 +6,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between py-4 lg:py-24 px-4 lg:px-44">
       <Intro />
       <About />
+      
     </main>
   );
 }

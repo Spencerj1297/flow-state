@@ -21,7 +21,7 @@ ChartJS.register(
   Legend
 );
 
-export const LineChart = () => {
+export function LineChart(){
   const labels = [
     "Jan",
     "Fe",

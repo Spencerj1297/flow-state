@@ -1,7 +1,7 @@
 "use client";
-import { BarGraph } from "@/app/components/barGraph";
-import { PieChart } from "@/app/components/pieChart";
-import { LineChart } from "@/app/components/lineChart";
+import { BarGraph } from "@/app/components/ui/barGraph";
+import { PieChart } from "@/app/components/ui/pieChart";
+import { LineChart } from "@/app/components/ui/lineChart";
 import { IconReportAnalytics } from "@tabler/icons-react";
 
 const Data = () => {

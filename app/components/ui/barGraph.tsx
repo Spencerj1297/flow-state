@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-export const BarGraph = () => {
+export function BarGraph(){
 const today = new Date();
 const currentMonth = today.toLocaleString('default', { month: 'long' });
 

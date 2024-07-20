@@ -36,50 +36,9 @@ export const CurrentTasks: FC<Props> = ({ userTasks, getTask }) => {
       priority: selectedPri,
     });
   };
-  
+
   const [selectedStatus, setSelectedStatus] = useState("in progress");
   const dropDownOptions = ["new", "in progress", "complete"];
-
-  const editTaskSection = (task: Task) => {
-    return (
-      <div className="flex flex-col gap-4">
-        <Input
-          name="title"
-          placeHolder="Enter task title"
-          value={formData.title}
-          handleChange={handleInputChange}
-          type="text"
-          label="Task Title"
-        />
-        <Input
-          name="description"
-          placeHolder="Enter task description"
-          value={formData.description}
-          handleChange={handleInputChange}
-          type="text"
-          label="Task"
-        />
-        <div className="w-full flex justify-between items-center">
-          <div className="w-1/2">
-            <DropDown
-              label="Priority"
-              options={priorityLevel}
-              selectedOption={selectedPri}
-              setSelectedOption={setSelectedPri}
-            />
-          </div>
-          <div className="w-1/2 text-left">
-            <DropDown
-              label="Status"
-              options={dropDownOptions}
-              selectedOption={selectedStatus}
-              setSelectedOption={setSelectedStatus}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   const editTask = async () => {
     try {
@@ -127,9 +86,6 @@ export const CurrentTasks: FC<Props> = ({ userTasks, getTask }) => {
               >
                 <p className="text-sm">{task?.title}</p>
                 <p className="text-xs">{task?.description}</p>
-                {/* <span className="absolute top-4 right-4 text-grey hover:text-seafoam">
-                  <IconSquareCheck />
-                </span> */}
               </button>
             </>
           ))}
@@ -138,10 +94,46 @@ export const CurrentTasks: FC<Props> = ({ userTasks, getTask }) => {
         <Modal
           modalTitle="Edit Task"
           closeModal={closeAndResetForm}
-          customSection={editTaskSection(formData)}
           callBack={editTask}
           isEdit
-        />
+        >
+          <div className="flex flex-col gap-4">
+            <Input
+              name="title"
+              placeHolder="Enter task title"
+              value={formData.title}
+              handleChange={handleInputChange}
+              type="text"
+              label="Task Title"
+            />
+            <Input
+              name="description"
+              placeHolder="Enter task description"
+              value={formData.description}
+              handleChange={handleInputChange}
+              type="text"
+              label="Task"
+            />
+            <div className="w-full flex justify-between items-center">
+              <div className="w-1/2">
+                <DropDown
+                  label="Priority"
+                  options={priorityLevel}
+                  selectedOption={selectedPri}
+                  setSelectedOption={setSelectedPri}
+                />
+              </div>
+              <div className="w-1/2 text-left">
+                <DropDown
+                  label="Status"
+                  options={dropDownOptions}
+                  selectedOption={selectedStatus}
+                  setSelectedOption={setSelectedStatus}
+                />
+              </div>
+            </div>
+          </div>
+        </Modal>
       )}
     </>
   );
